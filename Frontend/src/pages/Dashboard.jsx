@@ -8,6 +8,7 @@ import TaskBoard from '../components/TaskBoard';
 const Dashboard = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
+  const [selectedTasklist, setSelectedTasklist] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,23 +25,29 @@ const Dashboard = () => {
           }
         });
         setUserData(res.data.user);
+        alert(`Welcome back, ${res.data.user.name}!`);
       } catch (err) {
         console.error('Error fetching dashboard data:', err);
+        if (err.response && err.response.status === 401) {
+          alert('Session expired. Please log in again.');
+        }
+        else {
+          alert('Failed to fetch dashboard data. Please try again later.', err.message);
+        }
         localStorage.removeItem('token');
         navigate('/login');
       }
     };
-
     fetchData();
-  }, [navigate]);
+  }, []);
 
   return (
     <div className="h-screen flex flex-col bg-gray-100">
       <Header user={userData} />
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar user={userData} />
-        <main className="flex-1 pt-4 pl-10 pr-10 pb-4 overflow-auto">
-          <TaskBoard user={userData} />
+        <Sidebar user={userData} onTasklistSelect={setSelectedTasklist} />
+        <main className="flex-1 pt-0 pl-1 pr-1 pb-4 sticky top-0 z-10">
+          <TaskBoard user={userData} selectedTasklist={selectedTasklist} />
         </main>
       </div>
     </div>
