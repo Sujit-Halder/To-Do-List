@@ -5,13 +5,17 @@ import TaskCard from './TaskCard';
 import axios from 'axios';
 import { FaClipboardList, FaPlus, FaChartPie, FaCheckCircle } from 'react-icons/fa';
 import Progress from './ProgressBar';
-import MenuItem from './MenuItem';
 
 const TaskBoard = React.memo(({ user, selectedTasklist }) => {
   const [showModal, setShowModal] = useState(false);
   const [tasklists, setTasklists] = useState([]);
   const [editingTask, setEditingTask] = useState(null);
-  const [sortType, setSortType] = useState('date');
+  const [sortType1, setSortType1] = useState('date');
+  const [filterType1, setFilterType1] = useState('all');
+  const [order1, setOrder1] = useState('asc');
+  const [sortType2, setSortType2] = useState('date');
+  const [filterType2, setFilterType2] = useState('all');
+  const [order2, setOrder2] = useState('asc');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -163,46 +167,127 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
       return <p>No tasks available.</p>;
     }
 
-    if (selectedTasklist) {
-      const tasklist = tasklists.find((tl) => tl.name === selectedTasklist);
-      if (!tasklist) {
-        return <p>No tasks found for the selected task list.</p>;
-      }
-      return tasklist.tasks
-        // .filter((task) => task.status !== 'Completed' && task.status !== 'Overdue')
-        .sort((a, b) => new Date(a.date + 'T' + a.time) - new Date(b.date + 'T' + b.time))
-        .map((task, index) => (
-          <TaskCard
-            key={index}
-            tasklistName={tasklist.name}
-            taskData={task}
-            onEdit={(taskData) => handleOpenEditModal(taskData)}
-            onDelete={() => handleDeleteTask(task.id)}
-            onToggleComplete={() => handleMarkAsComplete(task.id)}
-          />
-        ));
-    } else {
-      return tasklists.flatMap((tasklist) =>
+    const tasks = selectedTasklist
+      ? tasklists.find((tl) => tl.name === selectedTasklist)?.tasks.map((task) => ({
+        ...task,
+        tasklistName: selectedTasklist,
+      })) || []
+      : tasklists.flatMap((tasklist) =>
         tasklist.tasks.map((task) => ({
           ...task,
-          tasklistName: tasklist.name, // Attach tasklist name to each task
+          tasklistName: tasklist.name,
         }))
-      )
-        .filter((task) => task.status !== 'Completed' && task.status !== 'Overdue')
-        .sort((a, b) => new Date(a.date + 'T' + a.time) - new Date(b.date + 'T' + b.time))
-        .map((task, index) => (
-          <TaskCard
-            key={index}
-            taskData={task}
-            tasklistName={task.tasklistName} // Pass tasklist name as a prop
-            onEdit={(taskData) => handleOpenEditModal(taskData)}
-            onDelete={() => handleDeleteTask(task.id)}
-            onToggleComplete={() => handleMarkAsComplete(task.id)}
-          />
-        ));
-    }
+      ).filter((task) => task.status !== 'Completed' && task.status !== 'Overdue');
+
+    // Apply status filter
+    const filteredTasks = tasks.filter((task) => {
+      if (filterType1 === 'all') return true;
+      return task.status === filterType1 || task.priority === filterType1;
+    });
+
+    const sortedTasks = [...filteredTasks].sort((a, b) => {
+      let comparison = 0;
+
+      switch (sortType1) {
+        case 'date':
+          comparison = new Date(a.date + 'T' + a.time) - new Date(b.date + 'T' + b.time);
+          break;
+        case 'name':
+          comparison = a.title.localeCompare(b.title);
+          break;
+        case 'creation':
+          comparison = new Date(b.creationTime) - new Date(a.creationTime);
+          break;
+        case 'modification':
+          comparison = new Date(b.modificationTime) - new Date(a.modificationTime);
+          break;
+        case 'completion':
+          comparison = new Date(b.completionTime || (a.date + 'T' + a.time)) - new Date(a.completionTime || (a.date + 'T' + a.time));
+          break;
+        default:
+          comparison = 0;
+      }
+
+      // Adjust comparison based on order1
+      return order1 === 'desc' ? -comparison : comparison;
+    });
+
+    return sortedTasks.map((task, index) => (
+      <TaskCard
+        key={index}
+        taskData={task}
+        tasklistName={task.tasklistName}
+        onEdit={(taskData) => handleOpenEditModal(taskData)}
+        onDelete={() => handleDeleteTask(task.id)}
+        onToggleComplete={() => handleMarkAsComplete(task.id)}
+      />
+    ));
   };
 
+
+  const renderCompleteTasks = () => {
+    if (tasklists.length === 0) {
+      return <p>No tasks available.</p>;
+    }
+
+    const tasks = selectedTasklist
+      ? tasklists.find((tl) => tl.name === selectedTasklist)?.tasks
+        .filter((task) => task.status === 'Completed' || task.status === 'Overdue')
+        .map((task) => ({
+          ...task,
+          tasklistName: selectedTasklist,
+        })) || []
+      : tasklists.flatMap((tasklist) =>
+        tasklist.tasks.map((task) => ({
+          ...task,
+          tasklistName: tasklist.name,
+        }))
+      ).filter((task) => task.status === 'Completed' || task.status === 'Overdue');
+
+    // Apply status filter
+    const filteredTasks = tasks.filter((task) => {
+      if (filterType2 === 'all') return true;
+      return task.status === filterType2 || task.priority === filterType2;
+    });
+
+    const sortedTasks = [...filteredTasks].sort((a, b) => {
+      let comparison = 0;
+
+      switch (sortType2) {
+        case 'date':
+          comparison = new Date(a.date + 'T' + a.time) - new Date(b.date + 'T' + b.time);
+          break;
+        case 'name':
+          comparison = a.title.localeCompare(b.title);
+          break;
+        case 'creation':
+          comparison = new Date(b.creationTime) - new Date(a.creationTime);
+          break;
+        case 'modification':
+          comparison = new Date(b.modificationTime) - new Date(a.modificationTime);
+          break;
+        case 'completion':
+          comparison = new Date(b.completionTime || (a.date + 'T' + a.time)) - new Date(a.completionTime || (a.date + 'T' + a.time));
+          break;
+        default:
+          comparison = 0;
+      }
+
+      // Adjust comparison based on order1
+      return order2 === 'desc' ? -comparison : comparison;
+    });
+
+    return sortedTasks.map((task, index) => (
+      <TaskCard
+        key={index}
+        taskData={task}
+        tasklistName={task.tasklistName}
+        onEdit={(taskData) => handleOpenEditModal(taskData)}
+        onDelete={() => handleDeleteTask(task.id)}
+        onToggleComplete={() => handleMarkAsComplete(task.id)}
+      />
+    ));
+  };
 
 
 
@@ -222,26 +307,44 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
 
             <div className="flex justify-end">
               <select
-                value={sortType}
-                onChange={(e) => setSortType(e.target.value)}
-                className="bg-red-400 text-white rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none focus:ring-2 hover:bg-red-500 transition-colors"
+                value={filterType1}
+                onChange={(e) => setFilterType1(e.target.value)}
+                className="absolute  right-98 bottom-4.5  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none focus: hover:bg-red-500hover:text-white transition-colors"
+              >
+                <optgroup label="Filter By Status">
+                  <option value="all">all</option>
+                  <option value="Not Started">Not Started</option>
+                  <option value="In Progress">In Progress</option>
+                </optgroup>
+                <optgroup label="Filter By Priority">
+                  <option value="High">High</option>
+                  <option value="Moderate">Moderate</option>
+                  <option value="Low">Low</option>
+                </optgroup>
+              </select>
+            </div>
+            <div className="flex justify-end">
+              <select
+                value={sortType1}
+                onChange={(e) => setSortType1(e.target.value)}
+                className="absolute  right-58.5 bottom-4.5  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none focus: hover:bg-red-500hover:text-white transition-colors"
               >
                 <optgroup label="Sort By">
                   <option value="name">Name</option>
                   <option value="date">Date</option>
-                  <option value="completion">Completed Date</option>
-                  <option value="creation">Created Date</option>
                   <option value="modification">Last Modified Date</option>
+                  <option value="completion" hidden={!selectedTasklist} >Completed Date</option>
+                  <option value="creation">Created Date</option>
+
                 </optgroup>
-                <optgroup label="Filter By Status">
-                  <option value="not-started">Not Started</option>
-                  <option value="in-progress">In Progress</option>
-                </optgroup>
-                <optgroup label="Filter By Priority">
-                  <option value="high">High</option>
-                  <option value="medium">Medium</option>
-                  <option value="low">Low</option>
-                </optgroup>
+              </select>
+            </div>
+            <div className="flex justify-end">
+              <select
+                value={order1}
+                onChange={(e) => setOrder1(e.target.value)}
+                className="absolute  right-30 bottom-4.5  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none focus: hover:bg-red-500hover:text-white transition-colors"
+              >
                 <optgroup label='Order By'>
                   <option value="asc">Ascending</option>
                   <option value="desc">Descending</option>
@@ -249,9 +352,11 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
               </select>
             </div>
 
+
             <button
               onClick={() => setShowModal(true)}
               className="flex items-center gap-1 text-sm text-white bg-red-400 hover:bg-red-500 px-3 py-1 rounded-full shadow"
+              title='Create a Task for remainder later'
             >
               <FaPlus />
               <span>Add Task</span>
@@ -325,31 +430,59 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
           </section>
 
           <section className="bg-white shadow-xl rounded-xl flex flex-col flex-1 overflow-hidden">
-            <div className="p-4 sticky top-0 bg-white z-10 shadow-sm rounded-t-xl flex items-center gap-2">
-              <FaCheckCircle className="text-blue-500" />
-              <h2 className="text-lg font-semibold">Completed Tasks</h2>
+            <div className="p-4 sticky top-0 bg-white z-10 shadow-sm rounded-t-xl flex flex-col gap-4">
+              <div className="flex items-center gap-2">
+                <FaCheckCircle className="text-blue-500" />
+                <h2 className="text-lg font-semibold">Completed & Overdue Tasks</h2>
+              </div>
+
+              <div className="flex gap-4 items-center justify-start">
+                <select
+                  value={filterType2}
+                  onChange={(e) => setFilterType2(e.target.value)}
+                  className="bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none hover:bg-red-500 hover:text-white transition-colors"
+                >
+                  <optgroup label="Filter By Status">
+                    <option value="all">All</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Overdue">Overdue</option>
+                  </optgroup>
+                  <optgroup label="Filter By Priority">
+                    <option value="High">High</option>
+                    <option value="Moderate">Moderate</option>
+                    <option value="Low">Low</option>
+                  </optgroup>
+                </select>
+
+                <select
+                  value={sortType2}
+                  onChange={(e) => setSortType2(e.target.value)}
+                  className="bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none hover:bg-red-500 hover:text-white transition-colors"
+                >
+                  <optgroup label="Sort By">
+                    <option value="name">Name</option>
+                    <option value="date">Date</option>
+                    <option value="creation">Created Date</option>
+                    <option value="modification">Modified Date</option>
+                    <option value="completion">Completed Date</option>
+                  </optgroup>
+                </select>
+
+                <select
+                  value={order2}
+                  onChange={(e) => setOrder2(e.target.value)}
+                  className="bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none hover:bg-red-500 hover:text-white transition-colors"
+                >
+                  <optgroup label="Order By">
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
+                  </optgroup>
+                </select>
+              </div>
             </div>
+
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {
-                tasklists.flatMap((tasklist) =>
-                  tasklist.tasks.map((task) => ({
-                    ...task,
-                    tasklistName: tasklist.name,
-                  }))
-                )
-                  .filter((task) => task.status === 'Completed' || task.status === 'Overdue')
-                  .sort((a, b) => new Date(b.completionTime || b.date) - new Date(a.completionTime || a.date))
-                  .map((task, index) => (
-                    <TaskCard
-                      key={index}
-                      taskData={task}
-                      tasklistName={task.tasklistName}
-                      onEdit={(taskData) => handleOpenEditModal(taskData)}
-                      onDelete={() => handleDeleteTask(task.id)}
-                      onToggleComplete={() => handleMarkAsComplete(task.id)}
-                    />
-                  ))
-              }
+              {renderCompleteTasks()}
             </div>
           </section>
         </div>
