@@ -113,8 +113,9 @@ exports.createTask = async (req, res) => {
         const otherTaskIndex = user.tasklists.findIndex(tl => tl.name === "Other Task");
 
         const newTask = {
-            id: uuidv4(), // Generate a unique ID for the task
+            id: uuidv4(), // Generate a unique ID for the task 
             ...task,
+            emailSent: task.emailNotification === true ? false : undefined
         };
 
         if (tasklistIndex !== -1) {

@@ -53,6 +53,9 @@ exports.dashboard = async (req, res) => {
       if (new Date() > reminderDateTime && task.status !== 'Completed') {
         task.status = 'Overdue';
       }
+      else if (new Date() < reminderDateTime && task.status === 'Overdue') {
+        task.status = 'Not Started'; 
+      }
     });
   });
 

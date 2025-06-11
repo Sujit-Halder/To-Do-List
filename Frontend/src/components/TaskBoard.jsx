@@ -168,10 +168,12 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
     }
 
     const tasks = selectedTasklist
-      ? tasklists.find((tl) => tl.name === selectedTasklist)?.tasks.map((task) => ({
-        ...task,
-        tasklistName: selectedTasklist,
-      })) || []
+      ? tasklists.find((tl) => tl.name === selectedTasklist)?.tasks
+        .filter((task) => task.status !== 'Completed' && task.status !== 'Overdue')
+        .map((task) => ({
+          ...task,
+          tasklistName: selectedTasklist,
+        })) || []
       : tasklists.flatMap((tasklist) =>
         tasklist.tasks.map((task) => ({
           ...task,
@@ -309,10 +311,10 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
               <select
                 value={filterType1}
                 onChange={(e) => setFilterType1(e.target.value)}
-                className="absolute  right-98 bottom-4.5  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none focus: hover:bg-red-500hover:text-white transition-colors"
+                className="absolute  right-98 bottom-4.5  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none  hover:bg-red-500 hover:text-white transition-colors"
               >
                 <optgroup label="Filter By Status">
-                  <option value="all">all</option>
+                  <option value="all">All</option>
                   <option value="Not Started">Not Started</option>
                   <option value="In Progress">In Progress</option>
                 </optgroup>
@@ -327,7 +329,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
               <select
                 value={sortType1}
                 onChange={(e) => setSortType1(e.target.value)}
-                className="absolute  right-58.5 bottom-4.5  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none focus: hover:bg-red-500hover:text-white transition-colors"
+                className="absolute  right-58.5 bottom-4.5  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none  hover:bg-red-500 hover:text-white transition-colors"
               >
                 <optgroup label="Sort By">
                   <option value="name">Name</option>
@@ -343,7 +345,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
               <select
                 value={order1}
                 onChange={(e) => setOrder1(e.target.value)}
-                className="absolute  right-30 bottom-4.5  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none focus: hover:bg-red-500hover:text-white transition-colors"
+                className="absolute  right-30 bottom-4.5  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none  hover:bg-red-500 hover:text-white transition-colors"
               >
                 <optgroup label='Order By'>
                   <option value="asc">Ascending</option>
@@ -387,7 +389,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
                       ).toFixed(3)
                       : 0 // Default to 0% if there are no tasks
                   }
-                  color="orange"
+                  color="red"
                 />
                 <Progress
                   title="Completed"
@@ -423,7 +425,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
                       ).toFixed(3)
                       : 0
                   }
-                  color="red"
+                  color="orange"
                 />
               </>
             )}

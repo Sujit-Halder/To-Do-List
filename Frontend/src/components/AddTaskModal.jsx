@@ -41,7 +41,7 @@ const AddTaskModal = ({ onClose, onSubmit, initialData }) => {
 
     // Validate reminder time
     const timeDifference = (reminderDateTime - currentDateTime) / (1000 * 60); 
-    if (!initialData && timeDifference < 10) { 
+    if (!initialData && timeDifference < 1) { 
       form.time = '';
       form.date = '';
       alert('Reminder time must be at least 10 minutes in the future.');
@@ -50,10 +50,9 @@ const AddTaskModal = ({ onClose, onSubmit, initialData }) => {
     }
 
     // Validate email notifications
-    if (form.emailNotification && timeDifference < 720) { 
+    if (form.emailNotification && timeDifference < 3) { 
       form.emailNotification = false;
-      alert('Email notifications are allowed only for tasks with a reminder time at least 12 hours in the future.');
-     
+      alert('Email notifications are allowed only for tasks with a reminder time at least 12 hours in the future.'); 
       return;
     }
 
