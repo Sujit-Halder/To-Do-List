@@ -4,6 +4,7 @@ const { generateAccessToken, base64 } = require('../utils/generateTokens');
 const DEFAULT_IMAGE = '../data/no-photo.png';
 
 exports.signup = async (req, res) => {
+  console.log('User Sign Up request',req.body.email);
   const user = req.body;
 
   const existing = await userModel.findByEmailOrUsername(user.email, user.username);

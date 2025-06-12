@@ -1,1 +1,4 @@
 **/node_modules/
+# Ignore user data file
+data/users.json
+.env
