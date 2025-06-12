@@ -40,31 +40,34 @@ const AddTaskModal = ({ onClose, onSubmit, initialData }) => {
     const reminderDateTime = new Date(`${form.date}T${form.time}`);
 
     // Validate reminder time
-    const timeDifference = (reminderDateTime - currentDateTime) / (1000 * 60); 
-    if (!initialData && timeDifference < 1) { 
+    const timeDifference = (reminderDateTime - currentDateTime) / (1000 * 60);
+    if (!initialData && timeDifference < 10) {
       form.time = '';
       form.date = '';
       alert('Reminder time must be at least 10 minutes in the future.');
-     
+      return;
+    }
+
+    if (initialData && timeDifference < 10) {
+      alert('Reminder time must be at least 10 minutes in the future.');
       return;
     }
 
     // Validate email notifications
-    if (form.emailNotification && timeDifference < 3) { 
+    if (form.emailNotification && timeDifference < 480) {
       form.emailNotification = false;
-      alert('Email notifications are allowed only for tasks with a reminder time at least 12 hours in the future.'); 
+      alert('Email notifications are allowed only for tasks with a reminder time at least 12 hours in the future.');
       return;
     }
 
     // Add creation and modification times
     const creationTime = currentDateTime.toISOString();
-    const modificationTime = creationTime; // Initially, modification time is the same as creation time
-
+    const modificationTime = creationTime;
     const updatedForm = {
       ...form,
       creationTime,
       modificationTime,
-      completionTime: '', 
+      completionTime: '',
     };
 
     onSubmit(updatedForm);
@@ -74,11 +77,11 @@ const AddTaskModal = ({ onClose, onSubmit, initialData }) => {
   const CompleteEditBlock = () => {
     const currentDateTime = new Date();
     const completionDateTime = new Date(form?.completionTime);
-    const timeDifference = (currentDateTime-completionDateTime) / (1000 * 60); 
+    const timeDifference = (currentDateTime - completionDateTime) / (1000 * 60);
     if (timeDifference > 2) {
       alert('Completion time is One Week long.Now you can not edit this task');
       return true;
-    }else{
+    } else {
       return false;
     }
   };
@@ -104,7 +107,7 @@ const AddTaskModal = ({ onClose, onSubmit, initialData }) => {
           className="w-full p-2 border rounded bg-white text-gray-800 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed shadow-inner"
           value={form.status}
           onChange={handleChange}
-          disabled={initialData  && (CompleteEditBlock() ||  form.status === 'Overdue')}
+          disabled={initialData && (CompleteEditBlock() || form.status === 'Overdue')}
         >
           <option value="Not Started" hidden={form.status === 'Not Started'}>Not Started</option>
           <option value="In Progress" hidden={form.status === 'In Progress' || !initialData}>In Progress</option>

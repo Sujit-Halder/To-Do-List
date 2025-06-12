@@ -7,7 +7,7 @@ const getTasksWith12HoursLeft = async () => {
     const users = await userModel.getUsers();
 
     const now = new Date();
-    const twelveHoursLater = new Date(now.getTime() + 8 * 60 * 1000);
+    const twelveHoursLater = new Date(now.getTime() + 8 * 60 * 60 * 1000);
 
     const tasksToNotify = [];
 
@@ -35,7 +35,7 @@ const getTasksWith12HoursLeft = async () => {
                     console.log(`Skipping task with invalid due date: ${task.title}`);
                     return;
                 }
-                if (taskDueDate > new Date() && (taskDueDate - new Date()) <= 2 * 60 * 1000) {
+                if (taskDueDate > now && taskDueDate <= twelveHoursLater) {
                     tasksToNotify.push({
                         userEmail: user.email,
                         userName: user.name,
