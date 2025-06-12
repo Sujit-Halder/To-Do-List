@@ -33,7 +33,7 @@ const ProfileImageUploader = ({ currentImage, onUpdate }) => {
       try {
         setIsUploading(true);
         const res = await axios.post(
-          'http://localhost:5000/api/user/update-image',
+          `${process.env.REACT_APP_API_URL}/api/user/update-image`,
           { image: base64Image },
           {
             headers: {
@@ -71,7 +71,7 @@ const ProfileImageUploader = ({ currentImage, onUpdate }) => {
     try {
       setIsUploading(true);
       await axios.post(
-        'http://localhost:5000/api/user/delete-image',
+        `${process.env.REACT_APP_API_URL}/api/user/delete-image`,
         {},
         {
           headers: {

@@ -48,7 +48,7 @@ const Sidebar = React.memo(({ user, onTasklistSelect }) => {
 
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/user/tasklists',
+        `${process.env.REACT_APP_API_URL}/api/user/tasklists`,
         { name: newTaskListName, tasks: [] },
         {
           headers: {
@@ -82,7 +82,7 @@ const Sidebar = React.memo(({ user, onTasklistSelect }) => {
 
     try {
       const response = await axios.put(
-        'http://localhost:5000/api/user/tasklists',
+        `${process.env.REACT_APP_API_URL}/api/user/tasklists`,
         { oldName: tasklistName, newName },
         {
           headers: {
@@ -115,7 +115,7 @@ const Sidebar = React.memo(({ user, onTasklistSelect }) => {
     }
 
     try {
-      const response = await axios.delete('http://localhost:5000/api/user/tasklists', {
+      const response = await axios.delete(`${process.env.REACT_APP_API_URL}/api/user/tasklists`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',

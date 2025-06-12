@@ -22,7 +22,7 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response=await axios.post("http://localhost:5000/api/auth/signup", form);
+      const response=await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/signup`, form);
       alert(response.data.message);
       navigate("/signin");
     } catch (err) {
