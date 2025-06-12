@@ -16,7 +16,7 @@ const SignIn = ({ setAuth }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/signin`, form);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signin`, form);
       localStorage.setItem('token', response.data.token);
       navigate("/dashboard");
     } catch (err) {

@@ -35,7 +35,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/user/task`,
+        `${import.meta.env.VITE_API_URL}/api/user/task`,
         { tasklistName: selectedTasklist || taskData.title, task: taskData },
         {
           headers: {
@@ -66,7 +66,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
 
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_API_URL}/api/user/task`,
+        `${import.meta.env.VITE_API_URL}/api/user/task`,
         { updatedTask },
         {
           headers: {
@@ -96,7 +96,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
 
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_API_URL}/api/user/task`,
+        `${import.meta.env.VITE_API_URL}/api/user/task`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -124,7 +124,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
     }
     try {
       const response = await axios.patch(
-        `${process.env.REACT_APP_API_URL}/api/user/task/complete`,
+        `${import.meta.env.VITE_API_URL}/api/user/task/complete`,
         { taskId },
         {
           headers: {
