@@ -5,7 +5,10 @@ const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: 'https://to-do-list-uaqt.onrender.com',
+    credentials: true 
+  }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
