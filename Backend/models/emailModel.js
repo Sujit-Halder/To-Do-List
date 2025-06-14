@@ -12,7 +12,7 @@ const getTasksWith12HoursLeft = async () => {
         const users = await userModel.getUsers();
 
         const now = new Date();
-        const twelveHoursLater = new Date(now.getTime() + 12 * 60 * 60 * 1000); // 12 hours later
+        const twelveHoursLater = new Date(now.getTime() + 60 * 60 * 1000); // 1 hours later
 
         const tasksToNotify = [];
 
