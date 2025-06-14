@@ -20,7 +20,17 @@ const SignIn = ({ setAuth }) => {
       localStorage.setItem('token', response.data.token);
       navigate("/dashboard");
     } catch (err) {
-      alert("Invalid credentials");
+      if (err.response) {
+        // Extract the specific error message from the server
+        const errorMessage = err.response.data.message || "An error occurred on the server.";
+        alert(errorMessage);
+      } else if (err.request) {
+        // Handle network errors
+        alert("No response from the server. Please check your internet connection.");
+      } else {
+        // Handle unexpected errors
+        alert(`Unexpected Error: ${err.message}`);
+      }
     }
   };
 

@@ -22,11 +22,21 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response=await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signup`, form);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signup`, form);
       alert(response.data.message);
       navigate("/signin");
     } catch (err) {
-      alert("Registration failed");
+      if (err.response) {
+        // Extract the specific error message from the server
+        const errorMessage = err.response.data.message || "An error occurred on the server.";
+        alert(errorMessage);
+      } else if (err.request) {
+        // Handle network errors
+        alert("No response from the server. Please check your internet connection.");
+      } else {
+        // Handle unexpected errors
+        alert(`Unexpected Error: ${err.message}`);
+      }
     }
   };
 

@@ -54,7 +54,7 @@ const AddTaskModal = ({ onClose, onSubmit, initialData }) => {
     }
 
     // Validate email notifications
-    if (form.emailNotification && timeDifference < 480) {
+    if (form.emailNotification && timeDifference < 60) {
       form.emailNotification = false;
       alert('Email notifications are allowed only for tasks with a reminder time at least 12 hours in the future.');
       return;
@@ -78,7 +78,7 @@ const AddTaskModal = ({ onClose, onSubmit, initialData }) => {
     const currentDateTime = new Date();
     const completionDateTime = new Date(form?.completionTime);
     const timeDifference = (currentDateTime - completionDateTime) / (1000 * 60);
-    if (timeDifference > 2) {
+    if (timeDifference > 3 * 60) {
       alert('Completion time is One Week long.Now you can not edit this task');
       return true;
     } else {

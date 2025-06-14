@@ -11,6 +11,8 @@ const Dashboard = () => {
   const [selectedTasklist, setSelectedTasklist] = useState(null);
 
   useEffect(() => {
+    let isMounted = true; // Flag to track if the component is still mounted
+
     const fetchData = async () => {
       const token = localStorage.getItem('token');
       if (!token) {
@@ -24,21 +26,27 @@ const Dashboard = () => {
             Authorization: `Bearer ${token}`
           }
         });
-        setUserData(res.data.user);
-        alert(`Welcome back, ${res.data.user.name}!`);
+        if (isMounted) {
+          setUserData(res.data.user);
+          alert(`Welcome back, ${res.data.user.name}!`);
+        }
       } catch (err) {
         console.error('Error fetching dashboard data:', err);
         if (err.response && err.response.status === 401) {
           alert('Session expired. Please log in again.');
-        }
-        else {
-          alert('Failed to fetch dashboard data. Please try again later.', err.message);
+        } else {
+          alert('Failed to fetch dashboard data. Please try again later.');
         }
         localStorage.removeItem('token');
         navigate('/login');
       }
     };
+
     fetchData();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (

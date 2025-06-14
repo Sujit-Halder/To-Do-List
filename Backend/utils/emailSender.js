@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const logger = require('./logger'); // Import logger
 require('dotenv').config();
 
 // Configure the email transporter
@@ -24,9 +25,10 @@ const sendEmail = async (to, subject, htmlContent) => {
     };
 
     await transporter.sendMail(mailOptions);
-    // console.log(`Email sent to ${to}`);
+    logger.info(`Email sent to ${to} with subject: "${subject}"`);
   } catch (error) {
-    console.error(`Error sending email: ${error.message}`);
+    logger.error(`Error sending email to ${to} with subject: "${subject}": ${error.message}`);
+    throw new Error(`Failed to send email to ${to}`);
   }
 };
 

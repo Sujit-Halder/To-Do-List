@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FaEdit, FaTrash, FaCheck } from 'react-icons/fa';
 
 
-const TaskCard = ({ taskData,tasklistName, onEdit, onDelete, onToggleComplete }) => {
+const TaskCard = ({ taskData, tasklistName, onEdit, onDelete, onToggleComplete }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const formatDate = (date) => {

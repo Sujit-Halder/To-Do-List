@@ -1,3 +1,5 @@
 **/node_modules/
-# Ignore user data file
-data/users.json
+Backend/data/users.json
+Backend/data/users.json.backup
+Backend/logs/
+Frontend/.env
