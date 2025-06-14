@@ -1,9 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaEdit, FaTrash, FaCheck } from 'react-icons/fa';
-
 
 const TaskCard = ({ taskData, tasklistName, onEdit, onDelete, onToggleComplete }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  // Detect if the device is a touch device
+  useEffect(() => {
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    setIsTouchDevice(isTouch);
+  }, []);
+
+  const handleHover = (state) => {
+    if (!isTouchDevice) {
+      setIsHovered(state);
+    }
+  };
 
   const formatDate = (date) => {
     const parsedDate = new Date(date);
@@ -17,7 +29,6 @@ const TaskCard = ({ taskData, tasklistName, onEdit, onDelete, onToggleComplete }
     const month = parsedDate.toLocaleString('en-US', { month: 'long' });
     const year = parsedDate.getFullYear();
 
-    // Determine the suffix for the day (1st, 2nd, 3rd, etc.)
     const suffix =
       day % 10 === 1 && day !== 11
         ? 'st'
@@ -38,7 +49,6 @@ const TaskCard = ({ taskData, tasklistName, onEdit, onDelete, onToggleComplete }
     return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
   };
 
-  // Combine date and time into a single human-readable format
   const formatDateTime = (dateTime) => {
     const parsedDateTime = new Date(dateTime);
 
@@ -52,12 +62,12 @@ const TaskCard = ({ taskData, tasklistName, onEdit, onDelete, onToggleComplete }
 
     return `${formattedDate}, ${formattedTime}`;
   };
+
   const CompleteEditBlock = () => {
     const currentDateTime = new Date();
     const completionDateTime = new Date(taskData?.completionTime);
     const timeDifference = (currentDateTime - completionDateTime) / (1000 * 60);
     if (timeDifference > 3 * 60) {
-      // alert('Completion time is One Week long.Now you can not edit this task');
       return true;
     } else {
       return false;
@@ -68,8 +78,9 @@ const TaskCard = ({ taskData, tasklistName, onEdit, onDelete, onToggleComplete }
     <div
       className={`bg-white p-6 rounded-xl shadow-lg flex justify-between items-center relative transition-transform duration-300 ${isHovered ? 'scale-105 shadow-2xl' : 'scale-100'
         }`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => handleHover(true)}
+      onMouseLeave={() => handleHover(false)}
+      onClick={() => isTouchDevice && setIsHovered(!isHovered)} // Toggle hover state on touch devices
     >
       <div className="flex flex-col justify-between space-y-2">
         <h3
@@ -82,17 +93,19 @@ const TaskCard = ({ taskData, tasklistName, onEdit, onDelete, onToggleComplete }
         {taskData.time && <p className="text-sm text-gray-600">⏳ {formatTime(taskData.time)}</p>}
         <p className="text-sm text-gray-600">
           🔥 Priority: <span className="font-medium">{taskData.priority || '--'}</span> | ✅ Status:{' '}
-          <span className="font-medium">{taskData.status}</span>  |  📧 Email Notification:{' '}
+          <span className="font-medium">{taskData.status}</span> | 📧 Email Notification:{' '}
           <span className="text-sm text-gray-600">{taskData.emailNotification ? ' 🔔' : ' 🔕'}</span>
         </p>
         <p className="text-xs text-gray-400">📅 Created on: {formatDateTime(taskData.creationTime)}</p>
         <p className="text-xs text-gray-400">📅 Last Modified on: {formatDateTime(taskData.modificationTime)}</p>
-        {taskData.completionTime && <p className="text-xs text-gray-400">📅 Task Completed on: {formatDateTime(taskData.completionTime)}</p>}
+        {taskData.completionTime && (
+          <p className="text-xs text-gray-400">📅 Task Completed on: {formatDateTime(taskData.completionTime)}</p>
+        )}
         <button
           onClick={onToggleComplete}
-          className={`mt-2 text-sm flex items-center gap-2 px-4 py-2 rounded-full font-medium  transition-transform duration-300 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed shadow-inner ${taskData.status === 'Completed'
-            ? 'bg-green-500 text-white hover:bg-green-600'
-            : 'bg-gray-200 text-gray-700 hover:bg-green-100 hover:text-green-600'
+          className={`mt-2 text-sm flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-transform duration-300 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed shadow-inner ${taskData.status === 'Completed'
+              ? 'bg-green-500 text-white hover:bg-green-600'
+              : 'bg-gray-200 text-gray-700 hover:bg-green-100 hover:text-green-600'
             }`}
           title="It will mark the task as completed or uncompleted"
           aria-label="Toggle Task Completion"
@@ -100,7 +113,6 @@ const TaskCard = ({ taskData, tasklistName, onEdit, onDelete, onToggleComplete }
         >
           <FaCheck className="text-white" />
           {taskData.status === 'Completed' ? 'Mark as Uncompleted' : 'Mark as Completed'}
-
         </button>
       </div>
 
@@ -116,9 +128,7 @@ const TaskCard = ({ taskData, tasklistName, onEdit, onDelete, onToggleComplete }
         <div className="absolute top-3 right-8 flex space-x-2 opacity-100 transition-opacity duration-300">
           <button
             className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 shadow-md transition-transform duration-300 hover:scale-110"
-            onClick={() => {
-              onEdit(taskData);
-            }}
+            onClick={() => onEdit(taskData)}
             aria-label="Edit Task"
             title="Edit Task"
           >
@@ -127,9 +137,7 @@ const TaskCard = ({ taskData, tasklistName, onEdit, onDelete, onToggleComplete }
           {taskData.status !== 'Overdue' && (
             <button
               className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 shadow-md transition-transform duration-300 hover:scale-110"
-              onClick={() => {
-                onDelete(taskData.id);
-              }}
+              onClick={() => onDelete(taskData.id)}
               aria-label="Delete Task"
               title="Delete Task"
             >
@@ -142,9 +150,7 @@ const TaskCard = ({ taskData, tasklistName, onEdit, onDelete, onToggleComplete }
         <div className="absolute bottom-3 right-8">
           <span className="text-xl font-medium text-red-500">#{tasklistName}</span>
         </div>
-      )
-
-      }
+      )}
     </div>
   );
 };

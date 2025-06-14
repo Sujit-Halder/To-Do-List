@@ -16,7 +16,22 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
   const [sortType2, setSortType2] = useState('date');
   const [filterType2, setFilterType2] = useState('all');
   const [order2, setOrder2] = useState('asc');
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
   const navigate = useNavigate();
+
+  // Detect screen size
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 768); // Small screen if width <= 768px
+    };
+
+    handleResize(); // Check on initial load
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     if (user?.tasklists) {
@@ -294,160 +309,31 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
 
 
   return (
-    <div className="h-screen flex flex-col pb-15 pt-6 pl-6 pr-2">
-      <h1 className="text-4xl font-bold mb-3">
+    <div className="h-screen flex flex-col md:pb-15 md:pt-4 md:pl-6 md:pr-2">
+      <h1 className="md:text-4xl font-bold md:mb-4 mb-2 mt-2 md:mt-0 ">
         Welcome back, <span className="text-red-400">{user?.name}</span> 👋
       </h1>
 
-      <div className="grid grid-cols-3 gap-6 flex-1 overflow-hidden">
-        <section className="col-span-2 bg-white shadow-xl rounded-xl flex flex-col overflow-hidden">
-          <div className="p-4 sticky top-0 bg-white z-10 shadow-sm flex justify-between items-center rounded-t-xl">
-            <div className="flex items-center gap-2">
-              <FaClipboardList className="text-red-400" />
-              <h2 className="text-lg font-semibold">To-Do</h2>
-            </div>
-
-            <div className="flex justify-end">
-              <select
-                value={filterType1}
-                onChange={(e) => setFilterType1(e.target.value)}
-                className="absolute  right-98 bottom-4.5  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none  hover:bg-red-500 hover:text-white transition-colors"
-              >
-                <optgroup label="Filter By Status">
-                  <option value="all">All</option>
-                  <option value="Not Started">Not Started</option>
-                  <option value="In Progress">In Progress</option>
-                </optgroup>
-                <optgroup label="Filter By Priority">
-                  <option value="High">High</option>
-                  <option value="Moderate">Moderate</option>
-                  <option value="Low">Low</option>
-                </optgroup>
-              </select>
-            </div>
-            <div className="flex justify-end">
-              <select
-                value={sortType1}
-                onChange={(e) => setSortType1(e.target.value)}
-                className="absolute  right-58.5 bottom-4.5  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none  hover:bg-red-500 hover:text-white transition-colors"
-              >
-                <optgroup label="Sort By">
-                  <option value="name">Name</option>
-                  <option value="date">Date</option>
-                  <option value="modification">Last Modified Date</option>
-                  <option value="completion" hidden={!selectedTasklist} >Completed Date</option>
-                  <option value="creation">Created Date</option>
-
-                </optgroup>
-              </select>
-            </div>
-            <div className="flex justify-end">
-              <select
-                value={order1}
-                onChange={(e) => setOrder1(e.target.value)}
-                className="absolute  right-30 bottom-4.5  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none  hover:bg-red-500 hover:text-white transition-colors"
-              >
-                <optgroup label='Order By'>
-                  <option value="asc">Ascending</option>
-                  <option value="desc">Descending</option>
-                </optgroup>
-              </select>
-            </div>
-
-
-            <button
-              onClick={() => setShowModal(true)}
-              className="flex items-center gap-1 text-sm text-white bg-red-400 hover:bg-red-500 px-3 py-1 rounded-full shadow"
-              title='Create a Task for remainder later'
-            >
-              <FaPlus />
-              <span>Add Task</span>
-            </button>
-          </div>
-
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
-            {renderTasks()}
-          </div>
-        </section>
-
-        <div className="flex flex-col gap-6 overflow-hidden">
-          <section className="bg-white shadow-xl rounded-xl p-4 shrink-0">
-            <div className="flex items-center gap-2 mb-4">
-              <FaChartPie className="text-green-500" />
-              <h2 className="text-lg font-semibold">Task Status</h2>
-            </div>
-
-            {tasklists.length > 0 && (
-              <>
-                <Progress
-                  title="Overdue"
-                  percent={
-                    tasklists.flatMap((tasklist) => tasklist.tasks).length > 0
-                      ? parseFloat(
-                        (tasklists.flatMap((tasklist) => tasklist.tasks).filter((task) => task.status === 'Overdue').length /
-                          tasklists.flatMap((tasklist) => tasklist.tasks).length) * 100
-                      ).toFixed(3)
-                      : 0 // Default to 0% if there are no tasks
-                  }
-                  color="red"
-                />
-                <Progress
-                  title="Completed"
-                  percent={
-                    tasklists.flatMap((tasklist) => tasklist.tasks).length > 0
-                      ? parseFloat(
-                        (tasklists.flatMap((tasklist) => tasklist.tasks).filter((task) => task.status === 'Completed').length /
-                          tasklists.flatMap((tasklist) => tasklist.tasks).length) * 100
-                      ).toFixed(3)
-                      : 0
-                  }
-                  color="green"
-                />
-                <Progress
-                  title="In Progress"
-                  percent={
-                    tasklists.flatMap((tasklist) => tasklist.tasks).length > 0
-                      ? parseFloat(
-                        (tasklists.flatMap((tasklist) => tasklist.tasks).filter((task) => task.status === 'In Progress').length /
-                          tasklists.flatMap((tasklist) => tasklist.tasks).length) * 100
-                      ).toFixed(3)
-                      : 0
-                  }
-                  color="blue"
-                />
-                <Progress
-                  title="Not Started"
-                  percent={
-                    tasklists.flatMap((tasklist) => tasklist.tasks).length > 0
-                      ? parseFloat(
-                        (tasklists.flatMap((tasklist) => tasklist.tasks).filter((task) => task.status === 'Not Started').length /
-                          tasklists.flatMap((tasklist) => tasklist.tasks).length) * 100
-                      ).toFixed(3)
-                      : 0
-                  }
-                  color="orange"
-                />
-              </>
-            )}
-          </section>
-
-          <section className="bg-white shadow-xl rounded-xl flex flex-col flex-1 overflow-hidden">
-            <div className="p-4 sticky top-0 bg-white z-10 shadow-sm rounded-t-xl flex flex-col gap-4">
+      {
+        !isSmallScreen &&
+        <div className="md:grid md:grid-cols-3 md:gap-6 md:flex-1 md:overflow-hidden">
+          <section className="col-span-2 bg-white shadow-xl rounded-xl flex flex-col overflow-hidden">
+            <div className="p-4 sticky top-0 bg-white z-10 shadow-sm flex justify-between items-center rounded-t-xl">
               <div className="flex items-center gap-2">
-                <FaCheckCircle className="text-blue-500" />
-                <h2 className="text-lg font-semibold">Completed & Overdue Tasks</h2>
+                <FaClipboardList className="text-red-400" />
+                <h2 className="text-lg font-semibold">To-Do</h2>
               </div>
 
-              <div className="flex gap-4 items-center justify-start">
+              <div className="flex justify-end">
                 <select
-                  value={filterType2}
-                  onChange={(e) => setFilterType2(e.target.value)}
-                  className="bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none hover:bg-red-500 hover:text-white transition-colors"
+                  value={filterType1}
+                  onChange={(e) => setFilterType1(e.target.value)}
+                  className="absolute  right-98 bottom-4.5  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none  hover:bg-red-500 hover:text-white transition-colors"
                 >
                   <optgroup label="Filter By Status">
                     <option value="all">All</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Overdue">Overdue</option>
+                    <option value="Not Started">Not Started</option>
+                    <option value="In Progress">In Progress</option>
                   </optgroup>
                   <optgroup label="Filter By Priority">
                     <option value="High">High</option>
@@ -455,40 +341,389 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
                     <option value="Low">Low</option>
                   </optgroup>
                 </select>
-
+              </div>
+              <div className="flex justify-end">
                 <select
-                  value={sortType2}
-                  onChange={(e) => setSortType2(e.target.value)}
-                  className="bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none hover:bg-red-500 hover:text-white transition-colors"
+                  value={sortType1}
+                  onChange={(e) => setSortType1(e.target.value)}
+                  className="absolute  right-58.5 bottom-4.5  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none  hover:bg-red-500 hover:text-white transition-colors"
                 >
                   <optgroup label="Sort By">
                     <option value="name">Name</option>
                     <option value="date">Date</option>
+                    <option value="modification">Last Modified Date</option>
+                    <option value="completion" hidden={!selectedTasklist} >Completed Date</option>
                     <option value="creation">Created Date</option>
-                    <option value="modification">Modified Date</option>
-                    <option value="completion">Completed Date</option>
+
                   </optgroup>
                 </select>
-
+              </div>
+              <div className="flex justify-end">
                 <select
-                  value={order2}
-                  onChange={(e) => setOrder2(e.target.value)}
-                  className="bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none hover:bg-red-500 hover:text-white transition-colors"
+                  value={order1}
+                  onChange={(e) => setOrder1(e.target.value)}
+                  className="absolute  right-30 bottom-4.5  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none  hover:bg-red-500 hover:text-white transition-colors"
                 >
-                  <optgroup label="Order By">
+                  <optgroup label='Order By'>
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
+                  </optgroup>
+                </select>
+              </div>
+
+
+              <button
+                onClick={() => setShowModal(true)}
+                className="flex items-center gap-1 text-sm text-white bg-red-400 hover:bg-red-500 px-3 py-1 rounded-full shadow"
+                title='Create a Task for remainder later'
+              >
+                <FaPlus />
+                <span>Add Task</span>
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {renderTasks()}
+            </div>
+          </section>
+
+          <div className="flex flex-col gap-6 overflow-hidden">
+            <section className="bg-white shadow-xl rounded-xl p-4 shrink-0">
+              <div className="flex items-center gap-2 mb-4">
+                <FaChartPie className="text-green-500" />
+                <h2 className="text-lg font-semibold">Task Status</h2>
+              </div>
+
+              {tasklists.length > 0 && (
+                <>
+                  <Progress
+                    title="Overdue"
+                    percent={
+                      tasklists.flatMap((tasklist) => tasklist.tasks).length > 0
+                        ? parseFloat(
+                          (tasklists.flatMap((tasklist) => tasklist.tasks).filter((task) => task.status === 'Overdue').length /
+                            tasklists.flatMap((tasklist) => tasklist.tasks).length) * 100
+                        ).toFixed(3)
+                        : 0 // Default to 0% if there are no tasks
+                    }
+                    color="red"
+                  />
+                  <Progress
+                    title="Completed"
+                    percent={
+                      tasklists.flatMap((tasklist) => tasklist.tasks).length > 0
+                        ? parseFloat(
+                          (tasklists.flatMap((tasklist) => tasklist.tasks).filter((task) => task.status === 'Completed').length /
+                            tasklists.flatMap((tasklist) => tasklist.tasks).length) * 100
+                        ).toFixed(3)
+                        : 0
+                    }
+                    color="green"
+                  />
+                  <Progress
+                    title="In Progress"
+                    percent={
+                      tasklists.flatMap((tasklist) => tasklist.tasks).length > 0
+                        ? parseFloat(
+                          (tasklists.flatMap((tasklist) => tasklist.tasks).filter((task) => task.status === 'In Progress').length /
+                            tasklists.flatMap((tasklist) => tasklist.tasks).length) * 100
+                        ).toFixed(3)
+                        : 0
+                    }
+                    color="blue"
+                  />
+                  <Progress
+                    title="Not Started"
+                    percent={
+                      tasklists.flatMap((tasklist) => tasklist.tasks).length > 0
+                        ? parseFloat(
+                          (tasklists.flatMap((tasklist) => tasklist.tasks).filter((task) => task.status === 'Not Started').length /
+                            tasklists.flatMap((tasklist) => tasklist.tasks).length) * 100
+                        ).toFixed(3)
+                        : 0
+                    }
+                    color="orange"
+                  />
+                </>
+              )}
+            </section>
+
+            <section className="bg-white shadow-xl rounded-xl flex flex-col flex-1 overflow-hidden">
+              <div className="p-4 sticky top-0 bg-white z-10 shadow-sm rounded-t-xl flex flex-col gap-4">
+                <div className="flex items-center gap-2">
+                  <FaCheckCircle className="text-blue-500" />
+                  <h2 className="text-lg font-semibold">Completed & Overdue Tasks</h2>
+                </div>
+
+                <div className="flex gap-4 items-center justify-start">
+                  <select
+                    value={filterType2}
+                    onChange={(e) => setFilterType2(e.target.value)}
+                    className="bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none hover:bg-red-500 hover:text-white transition-colors"
+                  >
+                    <optgroup label="Filter By Status">
+                      <option value="all">All</option>
+                      <option value="Completed">Completed</option>
+                      <option value="Overdue">Overdue</option>
+                    </optgroup>
+                    <optgroup label="Filter By Priority">
+                      <option value="High">High</option>
+                      <option value="Moderate">Moderate</option>
+                      <option value="Low">Low</option>
+                    </optgroup>
+                  </select>
+
+                  <select
+                    value={sortType2}
+                    onChange={(e) => setSortType2(e.target.value)}
+                    className="bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none hover:bg-red-500 hover:text-white transition-colors"
+                  >
+                    <optgroup label="Sort By">
+                      <option value="name">Name</option>
+                      <option value="date">Date</option>
+                      <option value="creation">Created Date</option>
+                      <option value="modification">Modified Date</option>
+                      <option value="completion">Completed Date</option>
+                    </optgroup>
+                  </select>
+
+                  <select
+                    value={order2}
+                    onChange={(e) => setOrder2(e.target.value)}
+                    className="bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none hover:bg-red-500 hover:text-white transition-colors"
+                  >
+                    <optgroup label="Order By">
+                      <option value="asc">Ascending</option>
+                      <option value="desc">Descending</option>
+                    </optgroup>
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                {renderCompleteTasks()}
+              </div>
+            </section>
+          </div>
+        </div>
+      }
+
+      {
+        isSmallScreen && !(selectedTasklist === 'Completed & Overdue Tasks' || selectedTasklist === 'Tasks Progress') &&
+        <section className="col-span-2 bg-white shadow-xl rounded-xl flex flex-col overflow-hidden mb-35">
+          <div className="p-4 sticky top-0 bg-white z-10 shadow-sm flex-col justify-between items-center rounded-t-xl">
+            <div className="flex items-center justify-between">
+              <div className='flex items-center gap-2'>
+                <FaClipboardList className="text-red-400" />
+                <h2 className="text-lg font-semibold">To-Do</h2>
+              </div>
+              <button
+                onClick={() => setShowModal(true)}
+                className="flex items-center gap-1 text-sm text-white bg-red-400 hover:bg-red-500 px-3 py-1 rounded-full shadow"
+                title='Create a Task for remainder later'
+              >
+                <FaPlus />
+                <span>Add Task</span>
+              </button>
+            </div>
+            <div className='flex flex-wrap justify-between gap-2 mt-3'>
+              <div className="">
+                <select
+                  value={filterType1}
+                  onChange={(e) => setFilterType1(e.target.value)}
+                  className="w-15 bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none  hover:bg-red-500 hover:text-white transition-colors"
+                >
+                  <optgroup label="Filter By Status">
+                    <option value="all">All</option>
+                    <option value="Not Started">Not Started</option>
+                    <option value="In Progress">In Progress</option>
+                  </optgroup>
+                  <optgroup label="Filter By Priority">
+                    <option value="High">High</option>
+                    <option value="Moderate">Moderate</option>
+                    <option value="Low">Low</option>
+                  </optgroup>
+                </select>
+              </div>
+              <div className="">
+                <select
+                  value={sortType1}
+                  onChange={(e) => setSortType1(e.target.value)}
+                  className="w-15  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none  hover:bg-red-500 hover:text-white transition-colors"
+                >
+                  <optgroup label="Sort By">
+                    <option value="name">Name</option>
+                    <option value="date">Date</option>
+                    <option value="modification">Last Modified Date</option>
+                    <option value="completion" hidden={!selectedTasklist} >Completed Date</option>
+                    <option value="creation">Created Date</option>
+
+                  </optgroup>
+                </select>
+              </div>
+              <div className="">
+                <select
+                  value={order1}
+                  onChange={(e) => setOrder1(e.target.value)}
+                  className="w-20 bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none  hover:bg-red-500 hover:text-white transition-colors"
+                >
+                  <optgroup label='Order By'>
                     <option value="asc">Ascending</option>
                     <option value="desc">Descending</option>
                   </optgroup>
                 </select>
               </div>
             </div>
+          </div>
 
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {renderCompleteTasks()}
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            {renderTasks()}
+          </div>
+        </section>
+      }
+
+      {
+        isSmallScreen && selectedTasklist === 'Completed & Overdue Tasks' &&
+        <section className="bg-white shadow-xl rounded-xl flex flex-col flex-1 overflow-hidden">
+          <div className="p-4 sticky top-0 bg-white z-10 shadow-sm rounded-t-xl flex flex-col gap-4">
+            <div className="flex items-center gap-2">
+              <FaCheckCircle className="text-blue-500" />
+              <h2 className="text-lg font-semibold">Completed & Overdue Tasks</h2>
             </div>
-          </section>
-        </div>
-      </div>
+
+            <div className="flex gap-4 items-center justify-start">
+              <select
+                value={filterType2}
+                onChange={(e) => setFilterType2(e.target.value)}
+                className="w-20 bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none hover:bg-red-500 hover:text-white transition-colors"
+              >
+                <optgroup label="Filter By Status">
+                  <option value="all">All</option>
+                  <option value="Completed">Completed</option>
+                  <option value="Overdue">Overdue</option>
+                </optgroup>
+                <optgroup label="Filter By Priority">
+                  <option value="High">High</option>
+                  <option value="Moderate">Moderate</option>
+                  <option value="Low">Low</option>
+                </optgroup>
+              </select>
+
+              <select
+                value={sortType2}
+                onChange={(e) => setSortType2(e.target.value)}
+                className="w-20 bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none hover:bg-red-500 hover:text-white transition-colors"
+              >
+                <optgroup label="Sort By">
+                  <option value="name">Name</option>
+                  <option value="date">Date</option>
+                  <option value="creation">Created Date</option>
+                  <option value="modification">Modified Date</option>
+                  <option value="completion">Completed Date</option>
+                </optgroup>
+              </select>
+
+              <select
+                value={order2}
+                onChange={(e) => setOrder2(e.target.value)}
+                className="bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none hover:bg-red-500 hover:text-white transition-colors"
+              >
+                <optgroup label="Order By">
+                  <option value="asc">Ascending</option>
+                  <option value="desc">Descending</option>
+                </optgroup>
+              </select>
+            </div>
+          </div>
+
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            {
+              tasklists.flatMap((tasklist) =>
+                tasklist.tasks.map((task) => ({
+                  ...task,
+                  tasklistName: tasklist.name,
+                }))
+              )
+                .filter((task) => task.status === 'Completed' || task.status === 'Overdue')
+                .sort((a, b) => new Date(b.completionTime || b.date) - new Date(a.completionTime || a.date))
+                .map((task, index) => (
+                  <TaskCard
+                    key={index}
+                    taskData={task}
+                    tasklistName={task.tasklistName}
+                    onEdit={(taskData) => handleOpenEditModal(taskData)}
+                    onDelete={() => handleDeleteTask(task.id)}
+                    onToggleComplete={() => handleMarkAsComplete(task.id)}
+                  />
+                ))
+            }
+          </div>
+        </section>
+      }
+
+      {
+        isSmallScreen && selectedTasklist === 'Tasks Progress' &&
+        <section className="bg-white shadow-xl rounded-xl p-4 shrink-0">
+          <div className="flex items-center gap-2 mb-4">
+            <FaChartPie className="text-green-500" />
+            <h2 className="text-lg font-semibold">Task Status</h2>
+          </div>
+
+          {tasklists.length > 0 && (
+            <>
+              <Progress
+                title="Overdue"
+                percent={
+                  tasklists.flatMap((tasklist) => tasklist.tasks).length > 0
+                    ? parseFloat(
+                      (tasklists.flatMap((tasklist) => tasklist.tasks).filter((task) => task.status === 'Overdue').length /
+                        tasklists.flatMap((tasklist) => tasklist.tasks).length) * 100
+                    ).toFixed(3)
+                    : 0 // Default to 0% if there are no tasks
+                }
+                color="red"
+              />
+              <Progress
+                title="Completed"
+                percent={
+                  tasklists.flatMap((tasklist) => tasklist.tasks).length > 0
+                    ? parseFloat(
+                      (tasklists.flatMap((tasklist) => tasklist.tasks).filter((task) => task.status === 'Completed').length /
+                        tasklists.flatMap((tasklist) => tasklist.tasks).length) * 100
+                    ).toFixed(3)
+                    : 0
+                }
+                color="green"
+              />
+              <Progress
+                title="In Progress"
+                percent={
+                  tasklists.flatMap((tasklist) => tasklist.tasks).length > 0
+                    ? parseFloat(
+                      (tasklists.flatMap((tasklist) => tasklist.tasks).filter((task) => task.status === 'In Progress').length /
+                        tasklists.flatMap((tasklist) => tasklist.tasks).length) * 100
+                    ).toFixed(3)
+                    : 0
+                }
+                color="blue"
+              />
+              <Progress
+                title="Not Started"
+                percent={
+                  tasklists.flatMap((tasklist) => tasklist.tasks).length > 0
+                    ? parseFloat(
+                      (tasklists.flatMap((tasklist) => tasklist.tasks).filter((task) => task.status === 'Not Started').length /
+                        tasklists.flatMap((tasklist) => tasklist.tasks).length) * 100
+                    ).toFixed(3)
+                    : 0
+                }
+                color="orange"
+              />
+            </>
+          )}
+        </section>
+
+      }
 
       {showModal && (
         <AddTaskModal
@@ -502,6 +737,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
       )}
 
     </div>
+
   );
 });
 

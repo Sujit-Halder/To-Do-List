@@ -11,7 +11,7 @@ const Dashboard = () => {
   const [selectedTasklist, setSelectedTasklist] = useState(null);
 
   useEffect(() => {
-    let isMounted = true; // Flag to track if the component is still mounted
+    let isMounted = true;
 
     const fetchData = async () => {
       const token = localStorage.getItem('token');
@@ -51,9 +51,15 @@ const Dashboard = () => {
 
   return (
     <div className="h-screen flex flex-col bg-gray-100">
+      {/* Header */}
       <Header user={userData} />
+
+      {/* Main Content */}
       <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar */}
         <Sidebar user={userData} onTasklistSelect={setSelectedTasklist} />
+
+        {/* TaskBoard */}
         <main className="flex-1 pt-0 pl-1 pr-1 pb-4 sticky top-0 z-10">
           <TaskBoard user={userData} selectedTasklist={selectedTasklist} />
         </main>
