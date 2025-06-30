@@ -53,6 +53,7 @@ const getTasksWith12HoursLeft = async () => {
                     if (taskDueDate > now && taskDueDate <= twelveHoursLater) {
                         tasksToNotify.push({
                             userEmail: user.email,
+                            userPhone: user.phone,
                             userName: user.name,
                             taskTitle: task.title,
                             taskDueDate: taskDueDate,

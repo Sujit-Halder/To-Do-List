@@ -1,8 +1,10 @@
+require('dotenv').config();
 const schedule = require('node-schedule');
 const path = require('path');
 const userModel = require('../models/userModel');
 const { getTasksWith12HoursLeft } = require('../models/emailModel');
 const sendEmail = require('./emailSender');
+const sendSMSMessage = require('./smsSender');
 const logger = require('./logger'); // Import logger
 
 // 🕒 Schedule job to check for overdue tasks every minute
@@ -35,9 +37,16 @@ schedule.scheduleJob('* * * * *', async () => {
         <p>Please make sure to complete it on time.</p>
       `;
 
+      const smsContent = `
+🚨 Remainder:      
+Hi, ${task.userName},
+your task ${task.taskTitle} is due on ${task.taskDueDate}. 
+`;
+
       try {
         await sendEmail(task.userEmail, 'Task Due Reminder', emailContent);
         logger.info(`Email sent to ${task.userEmail} for task "${task.taskTitle}"`);
+
 
         // ✅ Properly update users and save
         const updatedUsers = users.map((user) => {
@@ -53,6 +62,8 @@ schedule.scheduleJob('* * * * *', async () => {
 
           return user;
         });
+        await sendSMSMessage(task.userPhone, process.env.TWILIO_PHONE_NUMBER, smsContent);
+        logger.info(`SMS sent to ${task.userPhone} for task "${task.taskTitle}"`);
 
         await userModel.saveUsers(updatedUsers);
         logger.info(`Task "${task.taskTitle}" marked as email sent for user ${task.userEmail}`);

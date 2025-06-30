@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const userModel = require('../models/userModel');
 const { generateAccessToken, base64 } = require('../utils/generateTokens');
 const logger = require('../utils/logger'); // Import the logger
-const DEFAULT_IMAGE = '../data/no-photo.png';
+const DEFAULT_IMAGE = './data/no-photo.png';
 
 exports.signup = async (req, res) => {
   try {
@@ -35,7 +35,7 @@ exports.signup = async (req, res) => {
     await userModel.addUser({
       ...user,
       password: hashedPassword,
-      image: base64(DEFAULT_IMAGE),
+      image: '',
       tasklists: defaultTaskLists
     });
 

@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-const logger = require('./logger'); // Import logger
+const logger = require('./logger'); 
 require('dotenv').config();
 
 // Configure the email transporter

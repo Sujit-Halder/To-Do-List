@@ -26,7 +26,7 @@ exports.updateImage = async (req, res) => {
 
 exports.deleteImage = async (req, res) => {
     try {
-        const success = await userModel.updateUserByEmail(req.user.email, { image: base64('../data/no-photo.png') });
+        const success = await userModel.updateUserByEmail(req.user.email, { image: '' });
         if (!success) {
             logger.warn(`Delete image failed: User not found - ${req.user.email}`);
             return res.status(404).json({ message: 'User not found' });
