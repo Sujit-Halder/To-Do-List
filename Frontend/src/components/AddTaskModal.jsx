@@ -63,6 +63,7 @@ const AddTaskModal = ({ onClose, onSubmit, initialData }) => {
     // Add creation and modification times
     const creationTime = currentDateTime.toISOString();
     const modificationTime = creationTime;
+
     const updatedForm = {
       ...form,
       creationTime,
@@ -70,7 +71,7 @@ const AddTaskModal = ({ onClose, onSubmit, initialData }) => {
       completionTime: '',
     };
 
-    onSubmit(updatedForm);
+    initialData ? onSubmit({ ...form, emailSent: false, modificationTime }) : onSubmit(updatedForm);
     onClose();
   };
 
@@ -91,70 +92,89 @@ const AddTaskModal = ({ onClose, onSubmit, initialData }) => {
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded-xl shadow-lg w-96 space-y-4">
         <h2 className="text-xl font-semibold text-center">{!initialData ? 'Add New Task' : 'Edit Task'}</h2>
 
-        <input
-          name="title"
-          type="text"
-          placeholder="Title"
-          className="w-full p-2 border rounded bg-white text-gray-800 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed shadow-inner"
-          value={form.title}
-          onChange={handleChange}
-          disabled={initialData && (form.status === 'Completed' || form.status === 'Overdue' || form.status === 'In Progress')}
-          required
-        />
+        <div>
+          <label className="block mb-1 font-medium text-gray-700">Title</label>
+          <input
+            name="title"
+            type="text"
+            placeholder="Title"
+            className="w-full p-2 border rounded bg-white text-gray-800 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed shadow-inner"
+            value={form.title}
+            onChange={handleChange}
+            disabled={initialData && (form.status === 'Completed' || form.status === 'Overdue' || form.status === 'In Progress')}
+            required
+          />
+        </div>
 
-        <select
-          name="status"
-          className="w-full p-2 border rounded bg-white text-gray-800 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed shadow-inner"
-          value={form.status}
-          onChange={handleChange}
-          disabled={initialData && (CompleteEditBlock() || form.status === 'Overdue')}
-        >
-          <option value="Not Started" hidden={form.status === 'Not Started'}>Not Started</option>
-          <option value="In Progress" hidden={form.status === 'In Progress' || !initialData}>In Progress</option>
-          <option value="Completed" hidden={form.status === 'Completed' || !initialData}>Completed</option>
-          {/* <option value="Overdue" hidden={form.status === 'Overdue' || !initialData }>Overdue</option> */}
-        </select>
+        <div>
+          <label className="block mb-1 font-medium text-gray-700">Status</label>
+          <select
+            name="status"
+            className="w-full p-2 border rounded bg-white text-gray-800 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed shadow-inner"
+            value={form.status}
+            onChange={handleChange}
+            disabled={initialData && (CompleteEditBlock() || form.status === 'Overdue')}
+          >
+            <option value="Not Started" hidden={form.status === 'Not Started'}>Not Started</option>
+            <option value="In Progress" hidden={form.status === 'In Progress' || !initialData}>In Progress</option>
+            <option value="Completed" hidden={form.status === 'Completed' || !initialData}>Completed</option>
+            {/* <option value="Overdue" hidden={form.status === 'Overdue' || !initialData }>Overdue</option> */}
+          </select>
+        </div>
 
-        <input
-          name="date"
-          type="date"
-          className="w-full p-2 border rounded bg-white text-gray-800 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed shadow-inner"
-          value={form.date}
-          onChange={handleChange}
-          disabled={initialData && form.status === 'Completed'}
-          required
-        />
-        <input
-          name="time"
-          type="time"
-          className="w-full p-2 border rounded bg-white text-gray-800 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed shadow-inner"
-          value={form.time}
-          onChange={handleChange}
-          disabled={initialData && form.status === 'Completed'}
-          required
-        />
+        <div>
+          <label className="block mb-1 font-medium text-gray-700">Remainder Date</label>
+          <input
+            name="date"
+            type="date"
+            className="w-full p-2 border rounded bg-white text-gray-800 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed shadow-inner"
+            value={form.date}
+            onChange={handleChange}
+            disabled={initialData && form.status === 'Completed'}
+            required
+          />
+        </div>
 
-        <select
-          name="priority"
-          className="w-full p-2 border rounded bg-white text-gray-800 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed shadow-inner"
-          value={form.priority}
-          onChange={handleChange}
-          disabled={initialData && (form.status === 'Overdue' || form.status === 'Completed')}
-        >
-          <option value="High">High</option>
-          <option value="Moderate">Moderate</option>
-          <option value="Low">Low</option>
-        </select>
+        <div>
+          <label className="block mb-1 font-medium text-gray-700">Remainder Time</label>
+          <input
+            name="time"
+            type="time"
+            className="w-full p-2 border rounded bg-white text-gray-800 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed shadow-inner"
+            value={form.time}
+            onChange={handleChange}
+            disabled={initialData && form.status === 'Completed'}
+            required
+          />
+        </div>
 
-        <input
-          name="imageUrl"
-          type="text"
-          placeholder="Image URL"
-          className="w-full p-2 border rounded bg-white text-gray-800 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed shadow-inner"
-          value={form.imageUrl}
-          onChange={handleChange}
-          disabled={initialData && (form.status === 'Overdue' || form.status === 'Completed')}
-        />
+        <div>
+          <label className="block mb-1 font-medium text-gray-700">Priority</label>
+          <select
+            name="priority"
+            className="w-full p-2 border rounded bg-white text-gray-800 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed shadow-inner"
+            value={form.priority}
+            onChange={handleChange}
+            disabled={initialData && (form.status === 'Overdue' || form.status === 'Completed')}
+          >
+            <option value="High">High</option>
+            <option value="Moderate">Moderate</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium text-gray-700">Any Related Image (optional)</label>
+          <input
+            name="imageUrl"
+            type="text"
+            placeholder="Image URL"
+            className="w-full p-2 border rounded bg-white text-gray-800 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed shadow-inner"
+            value={form.imageUrl}
+            onChange={handleChange}
+            disabled={initialData && (form.status === 'Overdue' || form.status === 'Completed')}
+          />
+        </div>
 
         <div className="flex items-center space-x-2">
           <input
