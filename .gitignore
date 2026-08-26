@@ -1,6 +1,3 @@
 **/node_modules/
 Backend/data/users.json
 Backend/data/users.json.backup
-Backend/logs/
-Frontend/.env
-Backend/.env

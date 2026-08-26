@@ -4,7 +4,7 @@ const userModel = require('../models/userModel');
 const logger = require('../utils/logger'); // Import logger
 
 /**
- * Get tasks with 12 hours left for notification.
+ * Get tasks with 1 hours left for notification.
  * @returns {Array} List of tasks to notify.
  */
 const getTasksWith12HoursLeft = async () => {
@@ -12,7 +12,7 @@ const getTasksWith12HoursLeft = async () => {
         const users = await userModel.getUsers();
 
         const now = new Date();
-        const twelveHoursLater = new Date(now.getTime() + 60 * 60 * 1000); // 1 hours later
+        const twelveHoursLater = new Date(now.getTime() + 5 * 36 * 1000); // 1 hours later
 
         const tasksToNotify = [];
 

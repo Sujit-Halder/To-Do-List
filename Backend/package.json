@@ -25,5 +25,8 @@
     "twilio": "^5.7.1",
     "uuid": "^11.1.0",
     "winston": "^3.17.0"
+  },
+  "allowScripts": {
+    "bcrypt@6.0.0": true
   }
 }

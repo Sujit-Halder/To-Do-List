@@ -54,7 +54,7 @@ const AddTaskModal = ({ onClose, onSubmit, initialData }) => {
     }
 
     // Validate email notifications
-    if (form.emailNotification && timeDifference < 60) {
+    if (form.emailNotification && timeDifference < 5) {
       form.emailNotification = false;
       alert('Email notifications are allowed only for tasks with a reminder time at least 1 hours in the future.');
       return;

@@ -23,7 +23,7 @@ schedule.scheduleJob('* * * * *', async () => {
 // 🕒 Schedule job to send reminder emails every minute (change to hourly in production)
 schedule.scheduleJob('* * * * *', async () => {
   const timestamp = new Date();
-  // logger.info(`Checking tasks with 12 hours left... [${timestamp}]`);
+  // logger.info(`Checking tasks with 1 hours left... [${timestamp}]`);
 
   try {
     const tasksToNotify = await getTasksWith12HoursLeft();
