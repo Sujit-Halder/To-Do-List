@@ -1,0 +1,136 @@
+[2026-09-30 23:31:59] INFO: Sign Up request - mail1sujithalder@gmail.com
+[2026-09-30 23:31:59] INFO: Sign Up Successful - mail1sujithalder@gmail.com
+[2026-09-30 23:32:16] INFO: Sign In request - mail1sujithaldar@gmail.com
+[2026-09-30 23:32:16] WARN: Signin failed: User not found - mail1sujithaldar@gmail.com
+[2026-09-30 23:33:06] INFO: Sign In request - mail1sujithalder@gmail.com
+[2026-09-30 23:33:06] INFO: Access token generated for user: mail1sujithalder@gmail.com
+[2026-09-30 23:33:06] INFO: Sign In Successful - mail1sujithalder@gmail.com
+[2026-09-30 23:33:06] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:33:06] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:34:42] INFO: Sign In request - mail1sujithalder@gmail.com
+[2026-09-30 23:34:42] INFO: Access token generated for user: mail1sujithalder@gmail.com
+[2026-09-30 23:34:42] INFO: Sign In Successful - mail1sujithalder@gmail.com
+[2026-09-30 23:34:42] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:34:42] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:44:40] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:44:40] INFO: GET /api/auth/dashboard 304 22ms
+[2026-09-30 23:44:40] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:44:40] INFO: GET /api/auth/dashboard 304 19ms
+[2026-09-30 23:44:44] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:44:44] INFO: GET /api/auth/dashboard 304 20ms
+[2026-09-30 23:44:44] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:44:44] INFO: GET /api/auth/dashboard 304 15ms
+[2026-09-30 23:44:44] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:44:44] INFO: GET /api/auth/dashboard 304 10ms
+[2026-09-30 23:44:44] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:44:45] INFO: GET /api/auth/dashboard 304 20ms
+[2026-09-30 23:48:28] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:48:28] INFO: GET /api/auth/dashboard 304 10ms
+[2026-09-30 23:48:31] INFO: GET /api/user/activity?limit=30&offset=0 200 2ms
+[2026-09-30 23:48:31] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-09-30 23:48:34] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-09-30 23:49:28] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:49:28] INFO: GET /api/auth/dashboard 304 17ms
+[2026-09-30 23:49:28] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:49:28] INFO: GET /api/auth/dashboard 304 21ms
+[2026-09-30 23:49:40] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-09-30 23:49:40] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-09-30 23:49:43] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-09-30 23:49:43] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-09-30 23:52:14] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:14] INFO: GET /api/auth/dashboard 304 13ms
+[2026-09-30 23:52:14] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:14] INFO: GET /api/auth/dashboard 304 13ms
+[2026-09-30 23:52:15] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:15] INFO: GET /api/auth/dashboard 304 14ms
+[2026-09-30 23:52:15] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:15] INFO: GET /api/auth/dashboard 304 11ms
+[2026-09-30 23:52:26] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:26] INFO: GET /api/auth/dashboard 200 13ms
+[2026-09-30 23:52:26] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:26] INFO: GET /api/auth/dashboard 200 22ms
+[2026-09-30 23:52:41] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:41] INFO: GET /api/auth/dashboard 304 15ms
+[2026-09-30 23:52:41] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:41] INFO: GET /api/auth/dashboard 304 12ms
+[2026-09-30 23:52:46] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:46] INFO: GET /api/auth/dashboard 304 11ms
+[2026-09-30 23:52:46] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:46] INFO: GET /api/auth/dashboard 304 18ms
+[2026-09-30 23:53:08] INFO: GET /api/user/activity?limit=30&offset=0 304 3ms
+[2026-09-30 23:53:08] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-09-30 23:53:14] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-09-30 23:53:26] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-09-30 23:53:26] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-09-30 23:58:52] INFO: POST /api/user/tasklists 200 7ms
+[2026-09-30 23:58:56] INFO: POST /api/user/tasklists 200 1ms
+[2026-09-30 23:58:59] INFO: POST /api/user/tasklists 200 2ms
+[2026-09-30 23:59:02] INFO: POST /api/user/tasklists 200 1ms
+[2026-09-30 23:59:05] INFO: POST /api/user/tasklists 200 2ms
+[2026-09-30 23:59:09] INFO: POST /api/user/tasklists 200 2ms
+[2026-10-01 00:00:24] INFO: POST /api/user/tasklists 200 2ms
+[2026-10-01 00:02:42] INFO: POST /api/user/tasklists 200 2ms
+[2026-10-01 00:02:45] INFO: POST /api/user/tasklists 200 1ms
+[2026-10-01 00:02:59] INFO: POST /api/user/tasklists 200 2ms
+[2026-10-01 00:03:08] INFO: POST /api/user/tasklists 200 2ms
+[2026-10-01 00:03:11] INFO: POST /api/user/tasklists 200 2ms
+[2026-10-01 00:03:17] INFO: POST /api/user/tasklists 200 1ms
+[2026-10-01 00:03:32] INFO: DELETE /api/user/tasklists 200 7ms
+[2026-10-01 00:03:35] INFO: DELETE /api/user/tasklists 200 1ms
+[2026-10-01 00:03:37] INFO: DELETE /api/user/tasklists 200 2ms
+[2026-10-01 00:03:39] INFO: DELETE /api/user/tasklists 200 1ms
+[2026-10-01 00:03:41] INFO: DELETE /api/user/tasklists 200 2ms
+[2026-10-01 00:03:43] INFO: DELETE /api/user/tasklists 200 2ms
+[2026-10-01 00:03:47] INFO: GET /api/user/activity?limit=30&offset=0 200 6ms
+[2026-10-01 00:03:47] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-10-01 00:22:34] INFO: Sign In request - mail1sujithalder@gmail.com
+[2026-10-01 00:22:34] INFO: Access token generated for user: mail1sujithalder@gmail.com
+[2026-10-01 00:22:34] INFO: Sign In Successful - mail1sujithalder@gmail.com
+[2026-10-01 00:22:34] INFO: POST /api/auth/signin 200 84ms
+[2026-10-01 00:22:34] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-10-01 00:22:34] INFO: GET /api/auth/dashboard 200 13ms
+[2026-10-01 00:22:34] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-10-01 00:22:34] INFO: GET /api/auth/dashboard 304 13ms
+[2026-10-01 00:23:11] INFO: DELETE /api/user/tasklists 200 3ms
+[2026-10-01 00:23:13] INFO: DELETE /api/user/tasklists 200 6ms
+[2026-10-01 00:23:16] INFO: DELETE /api/user/tasklists 200 2ms
+[2026-10-01 00:23:17] INFO: DELETE /api/user/tasklists 200 2ms
+[2026-10-01 00:23:19] INFO: DELETE /api/user/tasklists 200 1ms
+[2026-10-01 00:23:22] INFO: DELETE /api/user/tasklists 200 2ms
+[2026-10-01 00:23:24] INFO: DELETE /api/user/tasklists 200 2ms
+[2026-10-01 00:23:25] INFO: DELETE /api/user/tasklists 200 1ms
+[2026-10-01 00:23:27] INFO: DELETE /api/user/tasklists 200 2ms
+[2026-10-01 00:23:28] INFO: DELETE /api/user/tasklists 200 3ms
+[2026-10-01 00:23:30] INFO: DELETE /api/user/tasklists 200 5ms
+[2026-10-01 00:24:14] INFO: GET /api/user/activity?limit=30&offset=0 200 3ms
+[2026-10-01 00:24:14] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-10-01 00:24:18] INFO: GET /api/user/activity?limit=30&offset=0&level=info 200 3ms
+[2026-10-01 00:24:20] INFO: GET /api/user/activity?limit=30&offset=0&level=warning 200 2ms
+[2026-10-01 00:24:22] INFO: GET /api/user/activity?limit=30&offset=0&level=error 200 2ms
+[2026-10-01 00:24:23] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-10-01 00:25:48] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-10-01 00:25:48] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-10-01 00:26:09] INFO: POST /api/user/update-image 200 26ms
+[2026-10-01 01:15:37] INFO: Sign In request - mail1sujithaldar@gmail.com
+[2026-10-01 01:15:37] WARN: Signin failed: User not found - mail1sujithaldar@gmail.com
+[2026-10-01 01:15:37] WARN: POST /api/auth/signin 401 5ms
+[2026-10-01 01:15:48] INFO: Sign In request - mail1sujithalder@gmail.com
+[2026-10-01 01:15:49] INFO: Access token generated for user: mail1sujithalder@gmail.com
+[2026-10-01 01:15:49] INFO: Sign In Successful - mail1sujithalder@gmail.com
+[2026-10-01 01:15:49] INFO: POST /api/auth/signin 200 80ms
+[2026-10-01 01:15:49] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-10-01 01:15:49] INFO: GET /api/auth/dashboard 200 19ms
+[2026-10-01 01:15:49] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-10-01 01:15:49] INFO: GET /api/auth/dashboard 304 37ms
+[2026-10-01 01:16:01] INFO: GET /api/user/activity?limit=30&offset=0 200 3ms
+[2026-10-01 01:16:01] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-10-01 01:16:09] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-10-01 01:16:09] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-10-01 01:16:12] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-10-01 01:16:12] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-10-01 01:16:19] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-10-01 01:16:19] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-10-01 01:17:51] INFO: POST /api/user/task 200 27ms
+[2026-10-01 01:18:16] INFO: DELETE /api/user/task 200 2ms
+[2026-10-01 01:18:26] INFO: GET /api/user/activity?limit=30&offset=0 200 2ms
+[2026-10-01 01:18:26] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
