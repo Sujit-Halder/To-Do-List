@@ -134,3 +134,15 @@
 [2026-10-01 01:18:16] INFO: DELETE /api/user/task 200 2ms
 [2026-10-01 01:18:26] INFO: GET /api/user/activity?limit=30&offset=0 200 2ms
 [2026-10-01 01:18:26] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-10-01 12:11:16] INFO: Sign In request - mail1sujithaldar@gmail.com
+[2026-10-01 12:11:16] WARN: Signin failed: User not found - mail1sujithaldar@gmail.com
+[2026-10-01 12:11:16] WARN: POST /api/auth/signin 401 4ms
+[2026-10-01 12:11:28] INFO: Sign In request - mail1sujithalder@gmail.com
+[2026-10-01 12:11:28] INFO: Access token generated for user: mail1sujithalder@gmail.com
+[2026-10-01 12:11:28] INFO: Sign In Successful - mail1sujithalder@gmail.com
+[2026-10-01 12:11:28] INFO: POST /api/auth/signin 200 62ms
+[2026-10-01 12:11:28] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-10-01 12:11:28] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-10-01 12:11:28] INFO: GET /api/auth/dashboard 304 19ms
+[2026-10-01 12:11:28] INFO: GET /api/auth/dashboard 200 43ms
+[2026-10-01 12:11:43] INFO: DELETE /api/user/tasklists 200 3ms

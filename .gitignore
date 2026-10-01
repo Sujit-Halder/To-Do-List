@@ -12,6 +12,7 @@ build/
 
 # Database files
 Backend/data/*.sqlite*
+Backend/data/*.sqlite-*
 
 # Logs
 Backend/logs/*.log
