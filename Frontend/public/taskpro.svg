@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">TaskPro+ logo</title>
+  <desc id="desc">A coral rounded square containing a white task card and check mark</desc>
+  <defs>
+    <linearGradient id="coral" x1="8" y1="6" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF7B7F"/><stop offset="1" stop-color="#EE4F55"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#9D2F34" flood-opacity=".25"/>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="17" fill="url(#coral)" filter="url(#shadow)"/>
+  <rect x="17" y="14" width="30" height="36" rx="7" fill="#fff" opacity=".98"/>
+  <rect x="25" y="10" width="14" height="8" rx="4" fill="#FFD6D7"/>
+  <path d="m23 32 5.5 5.5L41 25" fill="none" stroke="#F2555A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="47.5" cy="47.5" r="9.5" fill="#20232D"/>
+  <path d="M47.5 43v9M43 47.5h9" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/>
+</svg>

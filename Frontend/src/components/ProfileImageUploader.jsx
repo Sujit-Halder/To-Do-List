@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaCamera, FaTrashAlt } from 'react-icons/fa';
+import { notify } from '../utils/notifications';
 
 const DEFAULT_IMAGE = 'no-photo.png';
 
@@ -21,7 +22,7 @@ const ProfileImageUploader = ({ currentImage, onUpdate }) => {
 
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('Session expired. Please log in again.');
+      notify('Your session has expired. Please sign in again.', 'warning');
       navigate('/login');
       return;
     }
@@ -32,7 +33,7 @@ const ProfileImageUploader = ({ currentImage, onUpdate }) => {
 
       try {
         setIsUploading(true);
-        const res = await axios.post(
+        await axios.post(
           `${import.meta.env.VITE_API_URL}/api/user/update-image`,
           { image: base64Image },
           {
@@ -45,13 +46,13 @@ const ProfileImageUploader = ({ currentImage, onUpdate }) => {
 
         setPreview(base64Image);
         if (onUpdate) onUpdate(base64Image);
-        alert('Profile image updated successfully!');
+        notify('Profile image updated.', 'success');
       } catch (error) {
         console.error('Upload failed:', error);
-        if(res.status === 403){
-          alert('session expired');
+        if (error.response?.status === 403) {
+          notify('Your session has expired. Please sign in again.', 'warning');
         }
-        alert('Failed to upload image. Please try again.');
+        notify('The image could not be uploaded. Please try again.', 'error');
       } finally {
         setIsUploading(false);
       }
@@ -63,7 +64,7 @@ const ProfileImageUploader = ({ currentImage, onUpdate }) => {
   const handleDelete = async () => {
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('Session expired. Please log in again.');
+      notify('Your session has expired. Please sign in again.', 'warning');
       navigate('/login');
       return;
     }
@@ -84,19 +85,19 @@ const ProfileImageUploader = ({ currentImage, onUpdate }) => {
       if (onUpdate) onUpdate(DEFAULT_IMAGE);
     } catch (error) {
       console.error('Delete failed:', error);
-      alert('Failed to delete image.');
+      notify('The image could not be removed.', 'error');
     } finally {
       setIsUploading(false);
     }
   };
 
   return (
-    <div className="relative w-30 h-30 rounded-full overflow-hidden border-4 border-red-400 group">
+    <div className="group relative h-20 w-20 overflow-hidden rounded-full border-4 border-white/30 bg-white shadow-md">
       {/* Profile Image */}
       <img src={preview} alt="Profile" className="object-cover w-full h-full" />
 
       {/* Overlay on hover */}
-      <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4 text-white text-lg">
+      <div className="absolute inset-0 flex items-center justify-center gap-4 bg-black/50 text-lg text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
         {/* Upload Button */}
         <button
           onClick={() => fileInputRef.current.click()}

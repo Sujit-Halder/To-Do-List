@@ -4,6 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import TaskBoard from '../components/TaskBoard';
+import ActivityLog from '../components/ActivityLog';
+import SettingsPanel from '../components/SettingsPanel';
+import HelpPanel from '../components/HelpPanel';
+import { notify } from '../utils/notifications';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -28,14 +32,13 @@ const Dashboard = () => {
         });
         if (isMounted) {
           setUserData(res.data.user);
-          alert(`Welcome back, ${res.data.user.name}!`);
         }
       } catch (err) {
         console.error('Error fetching dashboard data:', err);
         if (err.response && err.response.status === 401) {
-          alert('Session expired. Please log in again.');
+          notify('Your session has expired. Please sign in again.', 'warning');
         } else {
-          alert('Failed to fetch dashboard data. Please try again later.');
+          notify('The dashboard could not be loaded. Please try again.', 'error');
         }
         localStorage.removeItem('token');
         navigate('/login');
@@ -47,21 +50,24 @@ const Dashboard = () => {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [navigate]);
 
   return (
-    <div className="h-screen flex flex-col bg-gray-100">
+    <div className="app-page min-h-screen bg-[#f5f7fb] lg:h-screen lg:overflow-hidden">
       {/* Header */}
       <Header user={userData} />
 
       {/* Main Content */}
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex min-h-[calc(100vh-73px)] lg:h-[calc(100vh-73px)]">
         {/* Sidebar */}
         <Sidebar user={userData} onTasklistSelect={setSelectedTasklist} />
 
         {/* TaskBoard */}
-        <main className="flex-1 pt-0 pl-1 pr-1 pb-4 sticky top-0 z-10">
-          <TaskBoard user={userData} selectedTasklist={selectedTasklist} />
+        <main className="min-w-0 flex-1 overflow-y-auto">
+          {selectedTasklist === 'Activity Log' && <ActivityLog />}
+          {selectedTasklist === 'Settings' && <SettingsPanel />}
+          {selectedTasklist === 'Help' && <HelpPanel />}
+          {!['Activity Log', 'Settings', 'Help'].includes(selectedTasklist) && <TaskBoard user={userData} selectedTasklist={selectedTasklist} />}
         </main>
       </div>
     </div>

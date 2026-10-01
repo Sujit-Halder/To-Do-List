@@ -1,6 +1,4 @@
 const jwt = require('jsonwebtoken');
-const fs = require('fs');
-const path = require('path');
 const logger = require('./logger'); // Import logger
 require('dotenv').config();
 
@@ -34,21 +32,7 @@ const generateAccessToken = (user) => {
 //   }
 // };
 
-// Function to encode a file to Base64
-const base64 = (filePath) => {
-  try {
-    const fileData = fs.readFileSync(path.resolve(filePath));
-    const base64String = fileData.toString('base64');
-    logger.info(`File at ${filePath} successfully encoded to Base64`);
-    return base64String;
-  } catch (error) {
-    logger.error(`Error encoding file at ${filePath} to Base64: ${error.message}`);
-    throw new Error('Failed to encode file to Base64');
-  }
-};
-
 module.exports = {
   generateAccessToken,
   // generateRefreshToken,
-  base64,
 };

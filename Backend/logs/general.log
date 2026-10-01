@@ -1,258 +1,136 @@
-[2025-06-29 15:46:51] INFO: Sign Up request - mail1sujithaldar@gmail.com
-[2025-06-29 15:46:51] WARN: User not found by email: mail1sujithaldar@gmail.com
-[2025-06-29 15:46:52] ERROR: Error encoding file at ../data/no-photo.png to Base64: ENOENT: no such file or directory, open '/home/po/Documents/To-Do-List/data/no-photo.png'
-[2025-06-29 15:46:52] ERROR: Error during Signup - Failed to encode file to Base64
-[2025-06-29 15:53:05] INFO: Sign Up request - mail1sujithaldar@gmail.com
-[2025-06-29 15:53:05] WARN: User not found by email: mail1sujithaldar@gmail.com
-[2025-06-29 15:53:05] ERROR: Error encoding file at ../no-photo.png to Base64: ENOENT: no such file or directory, open '/home/po/Documents/To-Do-List/no-photo.png'
-[2025-06-29 15:53:05] ERROR: Error during Signup - Failed to encode file to Base64
-[2025-06-29 15:54:32] INFO: Sign Up request - mail1sujithaldar@gmail.com
-[2025-06-29 15:54:32] WARN: User not found by email: mail1sujithaldar@gmail.com
-[2025-06-29 15:54:32] INFO: File at ./data/no-photo.png successfully encoded to Base64
-[2025-06-29 15:54:32] INFO: Added new user: mail1sujithaldar@gmail.com
-[2025-06-29 15:54:32] INFO: Sign Up Successful - mail1sujithaldar@gmail.com
-[2025-06-29 15:54:58] INFO: Sign In request - mail1sujithaldar@gmail.com
-[2025-06-29 15:54:58] INFO: Access token generated for user: mail1sujithaldar@gmail.com
-[2025-06-29 15:54:58] INFO: Sign In Successful - mail1sujithaldar@gmail.com
-[2025-06-29 15:54:58] INFO: Dashboard Opened Successfully - mail1sujithaldar@gmail.com
-[2025-06-29 15:54:58] INFO: Dashboard Opened Successfully - mail1sujithaldar@gmail.com
-[2025-06-29 15:55:56] ERROR: Error encoding file at ../data/no-photo.png to Base64: ENOENT: no such file or directory, open '/home/po/Documents/To-Do-List/data/no-photo.png'
-[2025-06-29 15:55:56] ERROR: Error during image delete: Failed to encode file to Base64
-[2025-06-29 15:56:07] INFO: User mail1sujithaldar@gmail.com updated profile image
-[2025-06-29 15:56:12] ERROR: Error encoding file at ../data/no-photo.png to Base64: ENOENT: no such file or directory, open '/home/po/Documents/To-Do-List/data/no-photo.png'
-[2025-06-29 15:56:12] ERROR: Error during image delete: Failed to encode file to Base64
-[2025-06-29 15:56:17] ERROR: Error encoding file at ../data/no-photo.png to Base64: ENOENT: no such file or directory, open '/home/po/Documents/To-Do-List/data/no-photo.png'
-[2025-06-29 15:56:17] ERROR: Error during image delete: Failed to encode file to Base64
-[2025-06-29 15:57:29] INFO: Dashboard Opened Successfully - mail1sujithaldar@gmail.com
-[2025-06-29 15:57:29] INFO: Dashboard Opened Successfully - mail1sujithaldar@gmail.com
-[2025-06-29 15:57:34] INFO: File at ./data/no-photo.png successfully encoded to Base64
-[2025-06-29 15:57:34] INFO: User mail1sujithaldar@gmail.com deleted profile image
-[2025-06-29 15:58:10] INFO: User mail1sujithaldar@gmail.com created a task in task list: Sms Checking
-[2025-06-29 15:58:17] INFO: User mail1sujithaldar@gmail.com edited task: 8f9f7663-9248-41f5-969d-aaf16806f84e
-[2025-06-29 16:00:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:00:00] ERROR: Error during task notification check: taskTitle is not defined
-[2025-06-29 16:01:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:01:00] ERROR: Error during task notification check: taskTitle is not defined
-[2025-06-29 16:02:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:02:00] ERROR: Error during task notification check: taskTitle is not defined
-[2025-06-29 16:03:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:03:00] ERROR: Error during task notification check: taskTitle is not defined
-[2025-06-29 16:04:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:04:00] ERROR: Error during task notification check: taskTitle is not defined
-[2025-06-29 16:05:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:05:00] ERROR: Error during task notification check: taskTitle is not defined
-[2025-06-29 16:06:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:06:00] ERROR: Error during task notification check: taskTitle is not defined
-[2025-06-29 16:07:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:07:00] ERROR: Error during task notification check: taskTitle is not defined
-[2025-06-29 16:08:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:08:00] ERROR: Error during task notification check: taskTitle is not defined
-[2025-06-29 16:09:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:09:00] ERROR: Error during task notification check: taskTitle is not defined
-[2025-06-29 16:10:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:10:00] ERROR: Error during task notification check: taskTitle is not defined
-[2025-06-29 16:11:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:11:00] ERROR: Error during task notification check: taskTitle is not defined
-[2025-06-29 16:12:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:12:00] ERROR: Error during task notification check: taskTitle is not defined
-[2025-06-29 16:13:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:13:00] ERROR: Error during task notification check: taskTitle is not defined
-[2025-06-29 16:14:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:14:05] INFO: Email sent to mail1sujithaldar@gmail.com with subject: "Task Due Reminder"
-[2025-06-29 16:14:05] INFO: Email sent to mail1sujithaldar@gmail.com for task "Sms Checking"
-[2025-06-29 16:14:07] ERROR: Failed to send email to mail1sujithaldar@gmail.com for task "Sms Checking": result is not defined
-[2025-06-29 16:15:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:15:04] INFO: Email sent to mail1sujithaldar@gmail.com with subject: "Task Due Reminder"
-[2025-06-29 16:15:04] INFO: Email sent to mail1sujithaldar@gmail.com for task "Sms Checking"
-[2025-06-29 16:15:06] ERROR: Failed to send email to mail1sujithaldar@gmail.com for task "Sms Checking": result is not defined
-[2025-06-29 16:16:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:16:05] INFO: Email sent to mail1sujithaldar@gmail.com with subject: "Task Due Reminder"
-[2025-06-29 16:16:05] INFO: Email sent to mail1sujithaldar@gmail.com for task "Sms Checking"
-[2025-06-29 16:16:06] ERROR: Failed to send email to mail1sujithaldar@gmail.com for task "Sms Checking": result is not defined
-[2025-06-29 16:17:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:17:05] INFO: Email sent to mail1sujithaldar@gmail.com with subject: "Task Due Reminder"
-[2025-06-29 16:17:05] INFO: Email sent to mail1sujithaldar@gmail.com for task "Sms Checking"
-[2025-06-29 16:17:06] ERROR: Failed to send email to mail1sujithaldar@gmail.com for task "Sms Checking": result is not defined
-[2025-06-29 16:18:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:18:05] INFO: Email sent to mail1sujithaldar@gmail.com with subject: "Task Due Reminder"
-[2025-06-29 16:18:05] INFO: Email sent to mail1sujithaldar@gmail.com for task "Sms Checking"
-[2025-06-29 16:18:07] ERROR: Failed to send email to mail1sujithaldar@gmail.com for task "Sms Checking": result is not defined
-[2025-06-29 16:19:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:19:04] INFO: Email sent to mail1sujithaldar@gmail.com with subject: "Task Due Reminder"
-[2025-06-29 16:19:04] INFO: Email sent to mail1sujithaldar@gmail.com for task "Sms Checking"
-[2025-06-29 16:19:06] ERROR: Error sending SMS to +919775203840 :  A 'From' or 'MessagingServiceSid' parameter is required to send a message
-[2025-06-29 16:19:06] ERROR: Failed to send email to mail1sujithaldar@gmail.com for task "Sms Checking": Failed to send SMS to +919775203840
-[2025-06-29 16:20:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:20:05] INFO: Email sent to mail1sujithaldar@gmail.com with subject: "Task Due Reminder"
-[2025-06-29 16:20:05] INFO: Email sent to mail1sujithaldar@gmail.com for task "Sms Checking"
-[2025-06-29 16:20:06] ERROR: Error sending SMS to +919775203840 :  A 'From' or 'MessagingServiceSid' parameter is required to send a message
-[2025-06-29 16:20:06] ERROR: Failed to send email to mail1sujithaldar@gmail.com for task "Sms Checking": Failed to send SMS to +919775203840
-[2025-06-29 16:21:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:21:04] INFO: Email sent to mail1sujithaldar@gmail.com with subject: "Task Due Reminder"
-[2025-06-29 16:21:04] INFO: Email sent to mail1sujithaldar@gmail.com for task "Sms Checking"
-[2025-06-29 16:21:06] ERROR: Error sending SMS to +919775203840 :  A 'From' or 'MessagingServiceSid' parameter is required to send a message
-[2025-06-29 16:21:06] ERROR: Failed to send email to mail1sujithaldar@gmail.com for task "Sms Checking": Failed to send SMS to +919775203840
-[2025-06-29 16:22:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:22:04] INFO: Email sent to mail1sujithaldar@gmail.com with subject: "Task Due Reminder"
-[2025-06-29 16:22:04] INFO: Email sent to mail1sujithaldar@gmail.com for task "Sms Checking"
-[2025-06-29 16:22:05] ERROR: Error sending SMS to +919775203840 :  A 'From' or 'MessagingServiceSid' parameter is required to send a message
-[2025-06-29 16:22:05] ERROR: Failed to send email to mail1sujithaldar@gmail.com for task "Sms Checking": Failed to send SMS to +919775203840
-[2025-06-29 16:23:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:23:04] INFO: Email sent to mail1sujithaldar@gmail.com with subject: "Task Due Reminder"
-[2025-06-29 16:23:04] INFO: Email sent to mail1sujithaldar@gmail.com for task "Sms Checking"
-[2025-06-29 16:23:06] ERROR: Error sending SMS to +919775203840 :  A 'From' or 'MessagingServiceSid' parameter is required to send a message
-[2025-06-29 16:23:06] ERROR: Failed to send email to mail1sujithaldar@gmail.com for task "Sms Checking": Failed to send SMS to +919775203840
-[2025-06-29 16:24:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:24:05] INFO: Email sent to mail1sujithaldar@gmail.com with subject: "Task Due Reminder"
-[2025-06-29 16:24:05] INFO: Email sent to mail1sujithaldar@gmail.com for task "Sms Checking"
-[2025-06-29 16:24:07] ERROR: Error sending SMS to +919775203840 :  A 'From' or 'MessagingServiceSid' parameter is required to send a message
-[2025-06-29 16:24:07] ERROR: Failed to send email to mail1sujithaldar@gmail.com for task "Sms Checking": Failed to send SMS to +919775203840
-[2025-06-29 16:25:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:25:04] INFO: Email sent to mail1sujithaldar@gmail.com with subject: "Task Due Reminder"
-[2025-06-29 16:25:04] INFO: Email sent to mail1sujithaldar@gmail.com for task "Sms Checking"
-[2025-06-29 16:25:05] ERROR: Error sending SMS to +919775203840 :  A 'From' or 'MessagingServiceSid' parameter is required to send a message
-[2025-06-29 16:25:05] ERROR: Failed to send email to mail1sujithaldar@gmail.com for task "Sms Checking": Failed to send SMS to +919775203840
-[2025-06-29 16:28:00] INFO: Task "Sms Checking" for user Sujit Halder added to notification list.
-[2025-06-29 16:28:05] INFO: Email sent to mail1sujithaldar@gmail.com with subject: "Task Due Reminder"
-[2025-06-29 16:28:05] INFO: Email sent to mail1sujithaldar@gmail.com for task "Sms Checking"
-[2025-06-29 16:28:07] INFO: SMS sent to +919775203840 from SID:SM4ec0790e97f012c640a50985abc564c0 successfully
-[2025-06-29 16:28:07] INFO: SMS sent to +919775203840 for task "Sms Checking"
-[2025-06-29 16:28:07] INFO: Task "Sms Checking" marked as email sent for user mail1sujithaldar@gmail.com
-[2025-06-29 16:48:45] INFO: Sign In request - mail1sujithldar@gmail.com
-[2025-06-29 16:48:45] WARN: User not found by email or username: mail1sujithldar@gmail.com
-[2025-06-29 16:48:45] WARN: Signin failed: User not found - mail1sujithldar@gmail.com
-[2025-06-29 16:48:52] INFO: Sign In request - mail1sujithaldar@gmail.com
-[2025-06-29 16:48:52] INFO: Access token generated for user: mail1sujithaldar@gmail.com
-[2025-06-29 16:48:52] INFO: Sign In Successful - mail1sujithaldar@gmail.com
-[2025-06-29 16:48:52] INFO: Dashboard Opened Successfully - mail1sujithaldar@gmail.com
-[2025-06-29 16:48:52] INFO: Dashboard Opened Successfully - mail1sujithaldar@gmail.com
-[2025-06-29 16:49:28] INFO: User mail1sujithaldar@gmail.com created a task in task list: West Side Story
-[2025-06-29 16:55:00] INFO: Task "West Side Story" for user Sujit Halder added to notification list.
-[2025-06-29 16:55:06] INFO: Email sent to mail1sujithaldar@gmail.com with subject: "Task Due Reminder"
-[2025-06-29 16:55:06] INFO: Email sent to mail1sujithaldar@gmail.com for task "West Side Story"
-[2025-06-29 16:55:08] INFO: SMS sent to +919775203840 from SID:SM27c312f893ab820c6fdda20488ac2c7e successfully
-[2025-06-29 16:55:08] INFO: SMS sent to +919775203840 for task "West Side Story"
-[2025-06-29 16:55:08] INFO: Task "West Side Story" marked as email sent for user mail1sujithaldar@gmail.com
-[2025-06-30 09:40:30] INFO: Sign In request - mail1sujithaldar@gmail.com
-[2025-06-30 09:40:30] INFO: Access token generated for user: mail1sujithaldar@gmail.com
-[2025-06-30 09:40:30] INFO: Sign In Successful - mail1sujithaldar@gmail.com
-[2025-06-30 09:40:30] INFO: Dashboard Opened Successfully - mail1sujithaldar@gmail.com
-[2025-06-30 09:40:30] INFO: Dashboard Opened Successfully - mail1sujithaldar@gmail.com
-[2025-06-30 09:41:23] INFO: User mail1sujithaldar@gmail.com edited task: 8f9f7663-9248-41f5-969d-aaf16806f84e
-[2025-06-30 09:45:00] ERROR: Error reading users file: Unterminated string in JSON at position 16384
-[2025-06-30 09:55:56] INFO: Dashboard Opened Successfully - mail1sujithaldar@gmail.com
-[2025-06-30 09:55:56] INFO: Dashboard Opened Successfully - mail1sujithaldar@gmail.com
-[2025-06-30 09:59:15] INFO: User mail1sujithaldar@gmail.com created a task in task list: yhjhjhj
-[2025-06-30 10:00:00] INFO: Task "yhjhjhj" for user Sujit Halder added to notification list.
-[2025-06-30 10:00:04] INFO: Email sent to mail1sujithaldar@gmail.com with subject: "Task Due Reminder"
-[2025-06-30 10:00:04] INFO: Email sent to mail1sujithaldar@gmail.com for task "yhjhjhj"
-[2025-06-30 10:00:05] INFO: SMS sent to +919775203840 from SID:SM0668aef984ee7f341d792a2fc38ce45b successfully
-[2025-06-30 10:00:05] INFO: SMS sent to +919775203840 for task "yhjhjhj"
-[2025-06-30 10:00:05] INFO: Task "yhjhjhj" marked as email sent for user mail1sujithaldar@gmail.com
-[2025-06-30 10:03:00] ERROR: Error reading users file: Unterminated string in JSON at position 4096
-[2025-06-30 10:03:45] INFO: User mail1sujithaldar@gmail.com edited task: 9699b1a5-4e35-40a9-941e-e0890fc745c7
-[2025-06-30 10:04:12] INFO: User mail1sujithaldar@gmail.com edited task: 8f9f7663-9248-41f5-969d-aaf16806f84e
-[2025-06-30 10:05:00] INFO: Task "West Side Story" for user Sujit Halder added to notification list.
-[2025-06-30 10:05:03] INFO: Email sent to mail1sujithaldar@gmail.com with subject: "Task Due Reminder"
-[2025-06-30 10:05:03] INFO: Email sent to mail1sujithaldar@gmail.com for task "West Side Story"
-[2025-06-30 10:05:04] INFO: SMS sent to +919775203840 from SID:SMce557f83668539719aac1b1ce69eedc9 successfully
-[2025-06-30 10:05:04] INFO: SMS sent to +919775203840 for task "West Side Story"
-[2025-06-30 10:05:04] INFO: Task "West Side Story" marked as email sent for user mail1sujithaldar@gmail.com
-[2025-06-30 10:12:38] INFO: Sign Up request - mail2sujithalder@gmail.com
-[2025-06-30 10:12:38] WARN: User not found by email: mail2sujithalder@gmail.com
-[2025-06-30 10:12:38] INFO: Added new user: mail2sujithalder@gmail.com
-[2025-06-30 10:12:38] INFO: Sign Up Successful - mail2sujithalder@gmail.com
-[2025-06-30 10:13:08] INFO: Sign In request - mail2sujithalder@gmail.com
-[2025-06-30 10:13:08] INFO: Access token generated for user: mail2sujithalder@gmail.com
-[2025-06-30 10:13:08] INFO: Sign In Successful - mail2sujithalder@gmail.com
-[2025-06-30 10:13:08] INFO: Dashboard Opened Successfully - mail2sujithalder@gmail.com
-[2025-06-30 10:13:08] INFO: Dashboard Opened Successfully - mail2sujithalder@gmail.com
-[2025-06-30 10:13:45] INFO: User mail2sujithalder@gmail.com updated profile image
-[2025-06-30 10:13:57] INFO: File at ./data/no-photo.png successfully encoded to Base64
-[2025-06-30 10:13:57] INFO: User mail2sujithalder@gmail.com deleted profile image
-[2025-06-30 10:15:37] INFO: User mail2sujithalder@gmail.com updated profile image
-[2025-06-30 10:15:51] INFO: User mail2sujithalder@gmail.com deleted profile image
-[2025-06-30 10:16:07] INFO: User mail2sujithalder@gmail.com updated profile image
-[2025-06-30 10:16:20] INFO: User mail2sujithalder@gmail.com deleted profile image
-[2026-08-03 18:43:08] INFO: Sign In request - 2025pgcscs11@nitjsr.ac.in
-[2026-08-03 18:43:08] WARN: User not found by email or username: 2025pgcscs11@nitjsr.ac.in
-[2026-08-03 18:43:08] WARN: Signin failed: User not found - 2025pgcscs11@nitjsr.ac.in
-[2026-08-03 18:43:15] INFO: Sign In request - 2025pgcscs11@nitjsr.ac.in
-[2026-08-03 18:43:15] WARN: User not found by email or username: 2025pgcscs11@nitjsr.ac.in
-[2026-08-03 18:43:15] WARN: Signin failed: User not found - 2025pgcscs11@nitjsr.ac.in
-[2026-08-03 18:44:24] INFO: Sign Up request - ddsd@email.com
-[2026-08-03 18:44:24] WARN: User not found by email: ddsd@email.com
-[2026-08-03 18:44:24] INFO: Added new user: ddsd@email.com
-[2026-08-03 18:44:24] INFO: Sign Up Successful - ddsd@email.com
-[2026-08-03 18:45:16] INFO: Sign In request - ddsd@email.com
-[2026-08-03 18:45:16] INFO: Access token generated for user: ddsd@email.com
-[2026-08-03 18:45:16] INFO: Sign In Successful - ddsd@email.com
-[2026-08-03 18:45:16] INFO: Dashboard Opened Successfully - ddsd@email.com
-[2026-08-03 18:45:16] INFO: Dashboard Opened Successfully - ddsd@email.com
-[2026-08-03 18:46:47] INFO: User ddsd@email.com updated profile image
-[2026-08-05 13:05:12] INFO: Sign In request - mail2sujithalder@gmail.com
-[2026-08-05 13:05:13] INFO: Access token generated for user: mail2sujithalder@gmail.com
-[2026-08-05 13:05:13] INFO: Sign In Successful - mail2sujithalder@gmail.com
-[2026-08-05 13:05:13] INFO: Dashboard Opened Successfully - mail2sujithalder@gmail.com
-[2026-08-05 13:05:13] INFO: Dashboard Opened Successfully - mail2sujithalder@gmail.com
-[2026-08-05 13:06:46] INFO: User mail2sujithalder@gmail.com created a task in task list: testing1
-[2026-08-05 13:07:43] INFO: User mail2sujithalder@gmail.com updated profile image
-[2026-08-05 13:09:20] INFO: Sign In request - mail2sujithalder@gmail.com
-[2026-08-05 13:09:20] INFO: Access token generated for user: mail2sujithalder@gmail.com
-[2026-08-05 13:09:20] INFO: Sign In Successful - mail2sujithalder@gmail.com
-[2026-08-05 13:09:20] INFO: Dashboard Opened Successfully - mail2sujithalder@gmail.com
-[2026-08-05 13:09:20] INFO: Dashboard Opened Successfully - mail2sujithalder@gmail.com
-[2026-08-05 13:23:02] INFO: Sign In request - mail2sujithalder@gmail.com
-[2026-08-05 13:23:02] INFO: Access token generated for user: mail2sujithalder@gmail.com
-[2026-08-05 13:23:02] INFO: Sign In Successful - mail2sujithalder@gmail.com
-[2026-08-05 13:23:02] INFO: Dashboard Opened Successfully - mail2sujithalder@gmail.com
-[2026-08-05 13:23:02] INFO: Dashboard Opened Successfully - mail2sujithalder@gmail.com
-[2026-08-05 13:23:06] INFO: User mail2sujithalder@gmail.com deleted task: a76f11c5-86b1-4054-9db4-86f50ad3660d
-[2026-08-05 13:28:03] INFO: Dashboard Opened Successfully - mail2sujithalder@gmail.com
-[2026-08-05 13:28:03] INFO: Dashboard Opened Successfully - mail2sujithalder@gmail.com
-[2026-08-05 13:28:56] INFO: User mail2sujithalder@gmail.com created a task in task list: test2
-[2026-08-05 13:42:00] INFO: Task "test2" for user PO PANDA added to notification list.
-[2026-08-05 13:42:01] ERROR: Error sending email to mail2sujithalder@gmail.com with subject: "Task Due Reminder": Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
-535 5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-3903d183dadsm1222522a91.0 - gsmtp
-[2026-08-05 13:42:01] ERROR: Failed to send email to mail2sujithalder@gmail.com for task "test2": Failed to send email to mail2sujithalder@gmail.com
-[2026-08-05 13:43:00] INFO: Task "test2" for user PO PANDA added to notification list.
-[2026-08-05 13:43:01] ERROR: Error sending email to mail2sujithalder@gmail.com with subject: "Task Due Reminder": Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
-535 5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-39039002882sm2339295a91.0 - gsmtp
-[2026-08-05 13:43:01] ERROR: Failed to send email to mail2sujithalder@gmail.com for task "test2": Failed to send email to mail2sujithalder@gmail.com
-[2026-08-05 13:44:00] INFO: Task "test2" for user PO PANDA added to notification list.
-[2026-08-05 13:44:01] ERROR: Error sending email to mail2sujithalder@gmail.com with subject: "Task Due Reminder": Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
-535 5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-38febfdae85sm3925497a91.3 - gsmtp
-[2026-08-05 13:44:01] ERROR: Failed to send email to mail2sujithalder@gmail.com for task "test2": Failed to send email to mail2sujithalder@gmail.com
-[2026-08-05 13:51:16] INFO: Dashboard Opened Successfully - mail2sujithalder@gmail.com
-[2026-08-05 13:51:16] INFO: Dashboard Opened Successfully - mail2sujithalder@gmail.com
-[2026-08-05 13:52:00] ERROR: Error reading users file: Unterminated string in JSON at position 131072
-[2026-08-05 14:16:27] WARN: User not found by email: mail2sujithalder@gmail.com
-[2026-08-05 14:16:27] WARN: Edit task failed: User not found - mail2sujithalder@gmail.com
-[2026-08-05 14:16:41] INFO: Sign In request - mail2sujithalder@gmail.com
-[2026-08-05 14:16:41] WARN: User not found by email or username: mail2sujithalder@gmail.com
-[2026-08-05 14:16:41] WARN: Signin failed: User not found - mail2sujithalder@gmail.com
-[2026-08-05 14:18:59] INFO: Sign Up request - mail2sujithalder@gmail.com
-[2026-08-05 14:18:59] WARN: User not found by email: mail2sujithalder@gmail.com
-[2026-08-05 14:18:59] INFO: Added new user: mail2sujithalder@gmail.com
-[2026-08-05 14:18:59] INFO: Sign Up Successful - mail2sujithalder@gmail.com
-[2026-08-05 14:19:15] INFO: Sign In request - mail2sujithalder@gmail.com
-[2026-08-05 14:19:15] INFO: Access token generated for user: mail2sujithalder@gmail.com
-[2026-08-05 14:19:15] INFO: Sign In Successful - mail2sujithalder@gmail.com
-[2026-08-05 14:19:15] INFO: Dashboard Opened Successfully - mail2sujithalder@gmail.com
-[2026-08-05 14:19:15] INFO: Dashboard Opened Successfully - mail2sujithalder@gmail.com
-[2026-08-05 14:19:35] INFO: User mail2sujithalder@gmail.com created a task in task list: iuoiuo
-[2026-08-05 14:27:00] INFO: Task "iuoiuo" for user panda added to notification list.
-[2026-08-05 14:27:03] INFO: Email sent to mail2sujithalder@gmail.com with subject: "Task Due Reminder"
-[2026-08-05 14:27:03] INFO: Email sent to mail2sujithalder@gmail.com for task "iuoiuo"
-[2026-08-05 14:27:05] ERROR: Error sending SMS to 9775203840 :  Invalid 'To' Phone Number: 977520XXXX
-[2026-08-05 14:27:05] ERROR: Failed to send email to mail2sujithalder@gmail.com for task "iuoiuo": Failed to send SMS to 9775203840
-[2026-08-05 14:28:00] INFO: Task "iuoiuo" for user panda added to notification list.
-[2026-08-05 14:28:03] INFO: Email sent to mail2sujithalder@gmail.com with subject: "Task Due Reminder"
-[2026-08-05 14:28:03] INFO: Email sent to mail2sujithalder@gmail.com for task "iuoiuo"
-[2026-08-05 14:28:03] ERROR: Error sending SMS to 9775203840 :  Invalid 'To' Phone Number: 977520XXXX
-[2026-08-05 14:28:03] ERROR: Failed to send email to mail2sujithalder@gmail.com for task "iuoiuo": Failed to send SMS to 9775203840
-[2026-08-05 14:29:00] INFO: Task "iuoiuo" for user panda added to notification list.
-[2026-08-05 14:29:03] INFO: Email sent to mail2sujithalder@gmail.com with subject: "Task Due Reminder"
-[2026-08-05 14:29:03] INFO: Email sent to mail2sujithalder@gmail.com for task "iuoiuo"
-[2026-08-05 14:29:04] ERROR: Error sending SMS to 9775203840 :  Invalid 'To' Phone Number: 977520XXXX
-[2026-08-05 14:29:04] ERROR: Failed to send email to mail2sujithalder@gmail.com for task "iuoiuo": Failed to send SMS to 9775203840
+[2026-09-30 23:31:59] INFO: Sign Up request - mail1sujithalder@gmail.com
+[2026-09-30 23:31:59] INFO: Sign Up Successful - mail1sujithalder@gmail.com
+[2026-09-30 23:32:16] INFO: Sign In request - mail1sujithaldar@gmail.com
+[2026-09-30 23:32:16] WARN: Signin failed: User not found - mail1sujithaldar@gmail.com
+[2026-09-30 23:33:06] INFO: Sign In request - mail1sujithalder@gmail.com
+[2026-09-30 23:33:06] INFO: Access token generated for user: mail1sujithalder@gmail.com
+[2026-09-30 23:33:06] INFO: Sign In Successful - mail1sujithalder@gmail.com
+[2026-09-30 23:33:06] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:33:06] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:34:42] INFO: Sign In request - mail1sujithalder@gmail.com
+[2026-09-30 23:34:42] INFO: Access token generated for user: mail1sujithalder@gmail.com
+[2026-09-30 23:34:42] INFO: Sign In Successful - mail1sujithalder@gmail.com
+[2026-09-30 23:34:42] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:34:42] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:44:40] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:44:40] INFO: GET /api/auth/dashboard 304 22ms
+[2026-09-30 23:44:40] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:44:40] INFO: GET /api/auth/dashboard 304 19ms
+[2026-09-30 23:44:44] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:44:44] INFO: GET /api/auth/dashboard 304 20ms
+[2026-09-30 23:44:44] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:44:44] INFO: GET /api/auth/dashboard 304 15ms
+[2026-09-30 23:44:44] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:44:44] INFO: GET /api/auth/dashboard 304 10ms
+[2026-09-30 23:44:44] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:44:45] INFO: GET /api/auth/dashboard 304 20ms
+[2026-09-30 23:48:28] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:48:28] INFO: GET /api/auth/dashboard 304 10ms
+[2026-09-30 23:48:31] INFO: GET /api/user/activity?limit=30&offset=0 200 2ms
+[2026-09-30 23:48:31] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-09-30 23:48:34] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-09-30 23:49:28] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:49:28] INFO: GET /api/auth/dashboard 304 17ms
+[2026-09-30 23:49:28] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:49:28] INFO: GET /api/auth/dashboard 304 21ms
+[2026-09-30 23:49:40] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-09-30 23:49:40] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-09-30 23:49:43] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-09-30 23:49:43] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-09-30 23:52:14] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:14] INFO: GET /api/auth/dashboard 304 13ms
+[2026-09-30 23:52:14] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:14] INFO: GET /api/auth/dashboard 304 13ms
+[2026-09-30 23:52:15] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:15] INFO: GET /api/auth/dashboard 304 14ms
+[2026-09-30 23:52:15] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:15] INFO: GET /api/auth/dashboard 304 11ms
+[2026-09-30 23:52:26] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:26] INFO: GET /api/auth/dashboard 200 13ms
+[2026-09-30 23:52:26] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:26] INFO: GET /api/auth/dashboard 200 22ms
+[2026-09-30 23:52:41] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:41] INFO: GET /api/auth/dashboard 304 15ms
+[2026-09-30 23:52:41] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:41] INFO: GET /api/auth/dashboard 304 12ms
+[2026-09-30 23:52:46] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:46] INFO: GET /api/auth/dashboard 304 11ms
+[2026-09-30 23:52:46] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-09-30 23:52:46] INFO: GET /api/auth/dashboard 304 18ms
+[2026-09-30 23:53:08] INFO: GET /api/user/activity?limit=30&offset=0 304 3ms
+[2026-09-30 23:53:08] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-09-30 23:53:14] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-09-30 23:53:26] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-09-30 23:53:26] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-09-30 23:58:52] INFO: POST /api/user/tasklists 200 7ms
+[2026-09-30 23:58:56] INFO: POST /api/user/tasklists 200 1ms
+[2026-09-30 23:58:59] INFO: POST /api/user/tasklists 200 2ms
+[2026-09-30 23:59:02] INFO: POST /api/user/tasklists 200 1ms
+[2026-09-30 23:59:05] INFO: POST /api/user/tasklists 200 2ms
+[2026-09-30 23:59:09] INFO: POST /api/user/tasklists 200 2ms
+[2026-10-01 00:00:24] INFO: POST /api/user/tasklists 200 2ms
+[2026-10-01 00:02:42] INFO: POST /api/user/tasklists 200 2ms
+[2026-10-01 00:02:45] INFO: POST /api/user/tasklists 200 1ms
+[2026-10-01 00:02:59] INFO: POST /api/user/tasklists 200 2ms
+[2026-10-01 00:03:08] INFO: POST /api/user/tasklists 200 2ms
+[2026-10-01 00:03:11] INFO: POST /api/user/tasklists 200 2ms
+[2026-10-01 00:03:17] INFO: POST /api/user/tasklists 200 1ms
+[2026-10-01 00:03:32] INFO: DELETE /api/user/tasklists 200 7ms
+[2026-10-01 00:03:35] INFO: DELETE /api/user/tasklists 200 1ms
+[2026-10-01 00:03:37] INFO: DELETE /api/user/tasklists 200 2ms
+[2026-10-01 00:03:39] INFO: DELETE /api/user/tasklists 200 1ms
+[2026-10-01 00:03:41] INFO: DELETE /api/user/tasklists 200 2ms
+[2026-10-01 00:03:43] INFO: DELETE /api/user/tasklists 200 2ms
+[2026-10-01 00:03:47] INFO: GET /api/user/activity?limit=30&offset=0 200 6ms
+[2026-10-01 00:03:47] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-10-01 00:22:34] INFO: Sign In request - mail1sujithalder@gmail.com
+[2026-10-01 00:22:34] INFO: Access token generated for user: mail1sujithalder@gmail.com
+[2026-10-01 00:22:34] INFO: Sign In Successful - mail1sujithalder@gmail.com
+[2026-10-01 00:22:34] INFO: POST /api/auth/signin 200 84ms
+[2026-10-01 00:22:34] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-10-01 00:22:34] INFO: GET /api/auth/dashboard 200 13ms
+[2026-10-01 00:22:34] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-10-01 00:22:34] INFO: GET /api/auth/dashboard 304 13ms
+[2026-10-01 00:23:11] INFO: DELETE /api/user/tasklists 200 3ms
+[2026-10-01 00:23:13] INFO: DELETE /api/user/tasklists 200 6ms
+[2026-10-01 00:23:16] INFO: DELETE /api/user/tasklists 200 2ms
+[2026-10-01 00:23:17] INFO: DELETE /api/user/tasklists 200 2ms
+[2026-10-01 00:23:19] INFO: DELETE /api/user/tasklists 200 1ms
+[2026-10-01 00:23:22] INFO: DELETE /api/user/tasklists 200 2ms
+[2026-10-01 00:23:24] INFO: DELETE /api/user/tasklists 200 2ms
+[2026-10-01 00:23:25] INFO: DELETE /api/user/tasklists 200 1ms
+[2026-10-01 00:23:27] INFO: DELETE /api/user/tasklists 200 2ms
+[2026-10-01 00:23:28] INFO: DELETE /api/user/tasklists 200 3ms
+[2026-10-01 00:23:30] INFO: DELETE /api/user/tasklists 200 5ms
+[2026-10-01 00:24:14] INFO: GET /api/user/activity?limit=30&offset=0 200 3ms
+[2026-10-01 00:24:14] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-10-01 00:24:18] INFO: GET /api/user/activity?limit=30&offset=0&level=info 200 3ms
+[2026-10-01 00:24:20] INFO: GET /api/user/activity?limit=30&offset=0&level=warning 200 2ms
+[2026-10-01 00:24:22] INFO: GET /api/user/activity?limit=30&offset=0&level=error 200 2ms
+[2026-10-01 00:24:23] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-10-01 00:25:48] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-10-01 00:25:48] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-10-01 00:26:09] INFO: POST /api/user/update-image 200 26ms
+[2026-10-01 01:15:37] INFO: Sign In request - mail1sujithaldar@gmail.com
+[2026-10-01 01:15:37] WARN: Signin failed: User not found - mail1sujithaldar@gmail.com
+[2026-10-01 01:15:37] WARN: POST /api/auth/signin 401 5ms
+[2026-10-01 01:15:48] INFO: Sign In request - mail1sujithalder@gmail.com
+[2026-10-01 01:15:49] INFO: Access token generated for user: mail1sujithalder@gmail.com
+[2026-10-01 01:15:49] INFO: Sign In Successful - mail1sujithalder@gmail.com
+[2026-10-01 01:15:49] INFO: POST /api/auth/signin 200 80ms
+[2026-10-01 01:15:49] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-10-01 01:15:49] INFO: GET /api/auth/dashboard 200 19ms
+[2026-10-01 01:15:49] INFO: Dashboard Opened Successfully - mail1sujithalder@gmail.com
+[2026-10-01 01:15:49] INFO: GET /api/auth/dashboard 304 37ms
+[2026-10-01 01:16:01] INFO: GET /api/user/activity?limit=30&offset=0 200 3ms
+[2026-10-01 01:16:01] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-10-01 01:16:09] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-10-01 01:16:09] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-10-01 01:16:12] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-10-01 01:16:12] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-10-01 01:16:19] INFO: GET /api/user/activity?limit=30&offset=0 304 1ms
+[2026-10-01 01:16:19] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms
+[2026-10-01 01:17:51] INFO: POST /api/user/task 200 27ms
+[2026-10-01 01:18:16] INFO: DELETE /api/user/task 200 2ms
+[2026-10-01 01:18:26] INFO: GET /api/user/activity?limit=30&offset=0 200 2ms
+[2026-10-01 01:18:26] INFO: GET /api/user/activity?limit=30&offset=0 304 2ms

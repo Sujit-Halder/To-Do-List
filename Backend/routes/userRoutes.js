@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { updateImage,deleteImage,addTaskList, editTaskList, deleteTaskList ,createTask,editTask,deleteTask,markTaskAsComplete,} = require('../controllers/userController');
+const { updateImage,deleteImage,addTaskList, editTaskList, deleteTaskList ,createTask,editTask,deleteTask,markTaskAsComplete,getActivity,} = require('../controllers/userController');
 const verifyToken = require('../middlewares/authMiddleware');
 
 
 router.post('/update-image',verifyToken,updateImage);
 router.post('/delete-image',verifyToken,deleteImage);
+router.get('/activity', verifyToken, getActivity);
 
 router.post('/tasklists', verifyToken, addTaskList); 
 router.put('/tasklists', verifyToken, editTaskList); 

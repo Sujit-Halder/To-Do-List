@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { notify } from "../utils/notifications";
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -23,27 +24,30 @@ const SignUp = () => {
     e.preventDefault();
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signup`, form);
-      alert(response.data.message);
-      navigate("/signin");
+      notify(response.data.message, 'success');
+      navigate("/login");
     } catch (err) {
       if (err.response) {
         // Extract the specific error message from the server
         const errorMessage = err.response.data.message || "An error occurred on the server.";
-        alert(errorMessage);
+        notify(errorMessage, 'error');
       } else if (err.request) {
         // Handle network errors
-        alert("No response from the server. Please check your internet connection.");
+        notify("The server could not be reached. Check your connection and try again.", 'error');
       } else {
         // Handle unexpected errors
-        alert(`Unexpected Error: ${err.message}`);
+        notify(`Something unexpected happened: ${err.message}`, 'error');
       }
     }
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-50">
-      <form onSubmit={handleSubmit} className="bg-white shadow-md p-6 rounded w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-4 text-center">Sign Up</h2>
+    <div className="app-page auth-page flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top_left,#ffe4e5,transparent_40%),#f5f7fb] p-4 py-10">
+      <form onSubmit={handleSubmit} className="surface-card w-full max-w-lg p-6 sm:p-8">
+        <div className="mb-5 flex items-center gap-3"><img src="/taskpro.svg" alt="" className="h-11 w-11" /><p className="font-semibold text-slate-800"><span className="text-red-400">Task</span>Pro+</p></div>
+        <h2 className="mb-1 mt-2 text-2xl font-bold">Create your account</h2>
+        <p className="mb-6 text-sm text-slate-500">Set up your workspace in a minute.</p>
+        <div className="grid gap-x-3 sm:grid-cols-2">
         <input
           type="text"
           name="username"
@@ -54,7 +58,7 @@ const SignUp = () => {
           minLength={10}
           maxLength={20}
           required
-          className="w-full mb-3 p-2 border rounded"
+          className="field-control mb-3"
         />
 
         <input
@@ -64,7 +68,7 @@ const SignUp = () => {
           value={form.email}
           onChange={handleChange}
           required
-          className="w-full mb-3 p-2 border rounded"
+          className="field-control mb-3"
         />
 
         <input
@@ -76,7 +80,7 @@ const SignUp = () => {
           minLength={8}
           maxLength={64}
           required
-          className="w-full mb-3 p-2 border rounded"
+          className="field-control mb-3"
         />
 
         <input
@@ -88,7 +92,7 @@ const SignUp = () => {
           pattern="^[a-z A-z]+$"
           minLength={2}
           required
-          className="w-full mb-3 p-2 border rounded"
+          className="field-control mb-3"
         />
 
         <input
@@ -98,7 +102,7 @@ const SignUp = () => {
           value={form.phone}
           onChange={handleChange}
           required
-          className="w-full mb-3 p-2 border rounded"
+          className="field-control mb-3"
         />
 
         <input
@@ -109,7 +113,7 @@ const SignUp = () => {
           onChange={handleChange}
           min={0}
           required
-          className="w-full mb-3 p-2 border rounded"
+          className="field-control mb-3"
         />
 
         <select
@@ -117,7 +121,7 @@ const SignUp = () => {
           value={form.gender}
           onChange={handleChange}
           required
-          className="w-full mb-3 p-2 border rounded"
+          className="field-control mb-3"
         >
           <option value="">Select a Gender</option>
           <option value="male">Male</option>
@@ -131,7 +135,7 @@ const SignUp = () => {
           value={form.profession}
           onChange={handleChange}
           required
-          className="w-full mb-3 p-2 border rounded"
+          className="field-control mb-3"
         >
           <option value="">Select a profession</option>
           <option value="student">Student</option>
@@ -140,7 +144,8 @@ const SignUp = () => {
           <option value="developer">Developer</option>
           <option value="other">Other</option>
         </select>
-        <button type="submit" className="bg-green-600 text-white w-full py-2 rounded hover:bg-green-700">Sign Up</button>
+        </div>
+        <button type="submit" className="button-primary mt-1 w-full">Sign Up</button>
       </form>
     </div>
   );

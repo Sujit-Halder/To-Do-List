@@ -5,6 +5,15 @@ import TaskCard from './TaskCard';
 import axios from 'axios';
 import { FaClipboardList, FaPlus, FaChartPie, FaCheckCircle } from 'react-icons/fa';
 import Progress from './ProgressBar';
+import { notify } from '../utils/notifications';
+
+const EmptyTasks = ({ completed = false }) => (
+  <div className="flex min-h-52 flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-slate-50/60 p-6 text-center">
+    <span className="mb-3 grid h-12 w-12 place-items-center rounded-2xl bg-red-50 text-xl text-red-400">{completed ? <FaCheckCircle /> : <FaClipboardList />}</span>
+    <p className="font-semibold text-slate-800">{completed ? 'No completed or overdue tasks' : 'Your task list is clear'}</p>
+    <p className="mt-1 max-w-xs text-sm leading-6 text-slate-500">{completed ? 'Finished and overdue tasks will appear here.' : 'Use Add Task when you are ready to plan something new.'}</p>
+  </div>
+);
 
 const TaskBoard = React.memo(({ user, selectedTasklist }) => {
   const [showModal, setShowModal] = useState(false);
@@ -43,7 +52,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
   const handleAddTask = async (taskData) => {
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('Session expired. Please log in again.');
+      notify('Your session has expired. Please sign in again.', 'warning');
       navigate('/login');
       return;
     }
@@ -51,7 +60,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/user/task`,
-        { tasklistName: selectedTasklist || taskData.title, task: taskData },
+        { tasklistName: selectedTasklist || 'Other Task', task: taskData },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -62,19 +71,20 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
 
       if (response.status === 200) {
         setTasklists(response.data.tasklists);
+        notify(response.data.message || 'Task added.', 'success');
       } else {
-        alert('Failed to add task list. Please try again.');
+        notify('The task could not be added. Please try again.', 'error');
       }
     } catch (err) {
       console.error('Failed to add task:', err.response?.data || err.message);
-      alert(`Error: ${err.response?.data?.message || 'Failed to add task. Please try again.'}`);
+      notify(err.response?.data?.message || 'The task could not be added. Please try again.', 'error');
     }
   };
 
   const handleEditTask = async (updatedTask) => {
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('Session expired. Please log in again.');
+      notify('Your session has expired. Please sign in again.', 'warning');
       navigate('/login');
       return;
     }
@@ -92,19 +102,20 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
       );
       if (response.status === 200) {
         setTasklists(response.data.tasklists);
+        notify(response.data.message || 'Task updated.', 'success');
       } else {
-        alert('Failed to edit task. Please try again.');
+        notify('The task could not be updated. Please try again.', 'error');
       }
     } catch (err) {
       console.error('Failed to edit task:', err.response?.data || err.message);
-      alert(`Error: ${err.response?.data?.message || 'Failed to edit task. Please try again.'}`);
+      notify(err.response?.data?.message || 'The task could not be updated. Please try again.', 'error');
     }
   };
 
   const handleDeleteTask = async (taskId) => {
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('Session expired. Please log in again.');
+      notify('Your session has expired. Please sign in again.', 'warning');
       navigate('/login');
       return;
     }
@@ -121,19 +132,20 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
       );
       if (response.status === 200) {
         setTasklists(response.data.tasklists);
+        notify(response.data.message || 'Task deleted.', 'success');
       } else {
-        alert('Failed to delete task. Please try again.');
+        notify('The task could not be deleted. Please try again.', 'error');
       }
     } catch (err) {
       console.error('Failed to delete task:', err.response?.data || err.message);
-      alert(`Error: ${err.response?.data?.message || 'Failed to delete task. Please try again.'}`);
+      notify(err.response?.data?.message || 'The task could not be deleted. Please try again.', 'error');
     }
   };
 
   const handleMarkAsComplete = async (taskId) => {
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('Session expired. Please log in again.');
+      notify('Your session has expired. Please sign in again.', 'warning');
       navigate('/login');
       return;
     }
@@ -150,12 +162,13 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
       );
       if (response.status === 200) {
         setTasklists(response.data.tasklists);
+        notify(response.data.message || 'Task status updated.', 'success');
       } else {
-        alert('Failed to mark task as complete. Please try again.');
+        notify('The task status could not be updated. Please try again.', 'error');
       }
     } catch (err) {
       console.error('Failed to mark task as complete:', err.response?.data || err.message);
-      alert(`Error: ${err.response?.data?.message || 'Failed to mark task as complete. Please try again.'}`);
+      notify(err.response?.data?.message || 'The task status could not be updated. Please try again.', 'error');
     }
   };
 
@@ -179,7 +192,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
 
   const renderTasks = () => {
     if (tasklists.length === 0) {
-      return <p>No tasks available.</p>;
+      return <EmptyTasks />;
     }
 
     const tasks = selectedTasklist
@@ -229,6 +242,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
       return order1 === 'desc' ? -comparison : comparison;
     });
 
+    if (!sortedTasks.length) return <EmptyTasks />;
     return sortedTasks.map((task, index) => (
       <TaskCard
         key={index}
@@ -244,7 +258,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
 
   const renderCompleteTasks = () => {
     if (tasklists.length === 0) {
-      return <p>No tasks available.</p>;
+      return <EmptyTasks completed />;
     }
 
     const tasks = selectedTasklist
@@ -294,6 +308,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
       return order2 === 'desc' ? -comparison : comparison;
     });
 
+    if (!sortedTasks.length) return <EmptyTasks completed />;
     return sortedTasks.map((task, index) => (
       <TaskCard
         key={index}
@@ -309,26 +324,27 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
 
 
   return (
-    <div className="h-screen flex flex-col md:pb-15 md:pt-4 md:pl-6 md:pr-2">
-      <h1 className="md:text-4xl font-bold md:mb-4 mb-2 mt-2 md:mt-0 ">
+    <div className="flex min-h-full flex-col p-4 lg:h-full lg:p-6">
+      <h1 className="mb-4 text-xl font-bold tracking-tight text-slate-900 md:text-2xl">
         Welcome back, <span className="text-red-400">{user?.name}</span> 👋
       </h1>
 
       {
         !isSmallScreen &&
-        <div className="md:grid md:grid-cols-3 md:gap-6 md:flex-1 md:overflow-hidden">
-          <section className="col-span-2 bg-white shadow-xl rounded-xl flex flex-col overflow-hidden">
-            <div className="p-4 sticky top-0 bg-white z-10 shadow-sm flex justify-between items-center rounded-t-xl">
-              <div className="flex items-center gap-2">
+        <div className="grid flex-1 grid-cols-[minmax(0,2fr)_minmax(280px,1fr)] gap-5 overflow-hidden">
+          <section className="surface-card col-span-1 flex min-w-0 flex-col overflow-hidden">
+            <div className="sticky top-0 z-10 flex flex-wrap items-center gap-2 border-b border-slate-100 bg-white p-4">
+              <div className="mr-auto flex items-center gap-2">
                 <FaClipboardList className="text-red-400" />
                 <h2 className="text-lg font-semibold">To-Do</h2>
               </div>
 
-              <div className="flex justify-end">
+              <div>
                 <select
                   value={filterType1}
+                  title="Filter active tasks by status or priority"
                   onChange={(e) => setFilterType1(e.target.value)}
-                  className="absolute  right-98 bottom-4.5  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none  hover:bg-red-500 hover:text-white transition-colors"
+                  className="field-control w-auto py-1.5 text-xs"
                 >
                   <optgroup label="Filter By Status">
                     <option value="all">All</option>
@@ -342,11 +358,12 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
                   </optgroup>
                 </select>
               </div>
-              <div className="flex justify-end">
+              <div>
                 <select
                   value={sortType1}
+                  title="Choose how active tasks are sorted"
                   onChange={(e) => setSortType1(e.target.value)}
-                  className="absolute  right-58.5 bottom-4.5  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none  hover:bg-red-500 hover:text-white transition-colors"
+                  className="field-control w-auto py-1.5 text-xs"
                 >
                   <optgroup label="Sort By">
                     <option value="name">Name</option>
@@ -358,11 +375,12 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
                   </optgroup>
                 </select>
               </div>
-              <div className="flex justify-end">
+              <div>
                 <select
                   value={order1}
+                  title="Choose ascending or descending order"
                   onChange={(e) => setOrder1(e.target.value)}
-                  className="absolute  right-30 bottom-4.5  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none  hover:bg-red-500 hover:text-white transition-colors"
+                  className="field-control w-auto py-1.5 text-xs"
                 >
                   <optgroup label='Order By'>
                     <option value="asc">Ascending</option>
@@ -374,7 +392,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
 
               <button
                 onClick={() => setShowModal(true)}
-                className="flex items-center gap-1 text-sm text-white bg-red-400 hover:bg-red-500 px-3 py-1 rounded-full shadow"
+                className="button-primary px-3 py-2"
                 title='Create a Task for remainder later'
               >
                 <FaPlus />
@@ -388,7 +406,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
           </section>
 
           <div className="flex flex-col gap-6 overflow-hidden">
-            <section className="bg-white shadow-xl rounded-xl p-4 shrink-0">
+            <section className="surface-card shrink-0 space-y-3 p-4">
               <div className="flex items-center gap-2 mb-4">
                 <FaChartPie className="text-green-500" />
                 <h2 className="text-lg font-semibold">Task Status</h2>
@@ -448,7 +466,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
               )}
             </section>
 
-            <section className="bg-white shadow-xl rounded-xl flex flex-col flex-1 overflow-hidden">
+            <section className="surface-card flex flex-1 flex-col overflow-hidden">
               <div className="p-4 sticky top-0 bg-white z-10 shadow-sm rounded-t-xl flex flex-col gap-4">
                 <div className="flex items-center gap-2">
                   <FaCheckCircle className="text-blue-500" />
@@ -458,6 +476,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
                 <div className="flex gap-4 items-center justify-start">
                   <select
                     value={filterType2}
+                    title="Filter completed and overdue tasks"
                     onChange={(e) => setFilterType2(e.target.value)}
                     className="bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none hover:bg-red-500 hover:text-white transition-colors"
                   >
@@ -475,6 +494,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
 
                   <select
                     value={sortType2}
+                    title="Choose how completed tasks are sorted"
                     onChange={(e) => setSortType2(e.target.value)}
                     className="bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none hover:bg-red-500 hover:text-white transition-colors"
                   >
@@ -489,6 +509,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
 
                   <select
                     value={order2}
+                    title="Choose ascending or descending order"
                     onChange={(e) => setOrder2(e.target.value)}
                     className="bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none hover:bg-red-500 hover:text-white transition-colors"
                   >
@@ -510,7 +531,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
 
       {
         isSmallScreen && !(selectedTasklist === 'Completed & Overdue Tasks' || selectedTasklist === 'Tasks Progress') &&
-        <section className="col-span-2 bg-white shadow-xl rounded-xl flex flex-col overflow-hidden mb-35">
+        <section className="surface-card mb-8 flex flex-col overflow-hidden">
           <div className="p-4 sticky top-0 bg-white z-10 shadow-sm flex-col justify-between items-center rounded-t-xl">
             <div className="flex items-center justify-between">
               <div className='flex items-center gap-2'>
@@ -519,7 +540,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
               </div>
               <button
                 onClick={() => setShowModal(true)}
-                className="flex items-center gap-1 text-sm text-white bg-red-400 hover:bg-red-500 px-3 py-1 rounded-full shadow"
+                className="button-primary px-3 py-2"
                 title='Create a Task for remainder later'
               >
                 <FaPlus />
@@ -530,8 +551,9 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
               <div className="">
                 <select
                   value={filterType1}
+                  title="Filter active tasks by status or priority"
                   onChange={(e) => setFilterType1(e.target.value)}
-                  className="w-15 bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none  hover:bg-red-500 hover:text-white transition-colors"
+                  className="field-control w-auto py-1.5 text-xs"
                 >
                   <optgroup label="Filter By Status">
                     <option value="all">All</option>
@@ -548,8 +570,9 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
               <div className="">
                 <select
                   value={sortType1}
+                  title="Choose how active tasks are sorted"
                   onChange={(e) => setSortType1(e.target.value)}
-                  className="w-15  bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none  hover:bg-red-500 hover:text-white transition-colors"
+                  className="field-control w-auto py-1.5 text-xs"
                 >
                   <optgroup label="Sort By">
                     <option value="name">Name</option>
@@ -564,8 +587,9 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
               <div className="">
                 <select
                   value={order1}
+                  title="Choose ascending or descending order"
                   onChange={(e) => setOrder1(e.target.value)}
-                  className="w-20 bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none  hover:bg-red-500 hover:text-white transition-colors"
+                  className="field-control w-auto py-1.5 text-xs"
                 >
                   <optgroup label='Order By'>
                     <option value="asc">Ascending</option>
@@ -584,7 +608,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
 
       {
         isSmallScreen && selectedTasklist === 'Completed & Overdue Tasks' &&
-        <section className="bg-white shadow-xl rounded-xl flex flex-col flex-1 overflow-hidden">
+        <section className="surface-card flex flex-1 flex-col overflow-hidden">
           <div className="p-4 sticky top-0 bg-white z-10 shadow-sm rounded-t-xl flex flex-col gap-4">
             <div className="flex items-center gap-2">
               <FaCheckCircle className="text-blue-500" />
@@ -594,6 +618,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
             <div className="flex gap-4 items-center justify-start">
               <select
                 value={filterType2}
+                title="Filter completed and overdue tasks"
                 onChange={(e) => setFilterType2(e.target.value)}
                 className="w-20 bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none hover:bg-red-500 hover:text-white transition-colors"
               >
@@ -611,6 +636,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
 
               <select
                 value={sortType2}
+                title="Choose how completed tasks are sorted"
                 onChange={(e) => setSortType2(e.target.value)}
                 className="w-20 bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none hover:bg-red-500 hover:text-white transition-colors"
               >
@@ -625,6 +651,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
 
               <select
                 value={order2}
+                title="Choose ascending or descending order"
                 onChange={(e) => setOrder2(e.target.value)}
                 className="bg-gray-200 text-black rounded-full px-2 py-1 text-sm shadow-inner focus:outline-none hover:bg-red-500 hover:text-white transition-colors"
               >
@@ -663,7 +690,7 @@ const TaskBoard = React.memo(({ user, selectedTasklist }) => {
 
       {
         isSmallScreen && selectedTasklist === 'Tasks Progress' &&
-        <section className="bg-white shadow-xl rounded-xl p-4 shrink-0">
+        <section className="surface-card shrink-0 space-y-3 p-4">
           <div className="flex items-center gap-2 mb-4">
             <FaChartPie className="text-green-500" />
             <h2 className="text-lg font-semibold">Task Status</h2>

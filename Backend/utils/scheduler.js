@@ -1,11 +1,14 @@
 require('dotenv').config();
 const schedule = require('node-schedule');
-const path = require('path');
 const userModel = require('../models/userModel');
-const { getTasksWith12HoursLeft } = require('../models/emailModel');
+const { getTasksInReminderWindow } = require('../models/emailModel');
 const sendEmail = require('./emailSender');
 const sendSMSMessage = require('./smsSender');
 const logger = require('./logger'); // Import logger
+const activityModel = require('../models/activityModel');
+const buildReminderEmail = require('./emailTemplate');
+
+const reminderMinutes = Math.max(1, Number(process.env.REMINDER_NOTIFICATION_MINUTES) || 60);
 
 // 🕒 Schedule job to check for overdue tasks every minute
 schedule.scheduleJob('* * * * *', async () => {
@@ -26,49 +29,26 @@ schedule.scheduleJob('* * * * *', async () => {
   // logger.info(`Checking tasks with 1 hours left... [${timestamp}]`);
 
   try {
-    const tasksToNotify = await getTasksWith12HoursLeft();
-    const users = await userModel.getUsers();
+    const tasksToNotify = await getTasksInReminderWindow();
 
     for (const task of tasksToNotify) {
-      const emailContent = `
-        <h1>Reminder: Task Due Soon</h1>
-        <p>Hi ${task.userName},</p>
-        <p>Your task <strong>"${task.taskTitle}"</strong> is due on <strong>${task.taskDueDate}</strong>.</p>
-        <p>Please make sure to complete it on time.</p>
-      `;
-
-      const smsContent = `
-🚨 Remainder:      
-Hi, ${task.userName},
-your task ${task.taskTitle} is due on ${task.taskDueDate}. 
-`;
+      const emailContent = buildReminderEmail({ ...task, reminderMinutes });
+      const smsContent = `TaskPro+ reminder: “${task.taskTitle}” is due at ${new Date(task.taskDueDate).toLocaleString('en-IN')}. You’ve got this, ${task.userName}!`;
 
       try {
         await sendEmail(task.userEmail, 'Task Due Reminder', emailContent);
         logger.info(`Email sent to ${task.userEmail} for task "${task.taskTitle}"`);
 
 
-        // ✅ Properly update users and save
-        const updatedUsers = users.map((user) => {
-          if (user.email !== task.userEmail) return user;
+        const smsResult = await sendSMSMessage(task.userPhone, process.env.TWILIO_PHONE_NUMBER, smsContent);
+        if (!smsResult.skipped) logger.info(`SMS sent to ${task.userPhone} for task "${task.taskTitle}"`);
 
-          user.tasklists.forEach((tasklist) => {
-            tasklist.tasks.forEach((t) => {
-              if (t.id === task.taskId) {
-                t.emailSent = true;
-              }
-            });
-          });
-
-          return user;
-        });
-        await sendSMSMessage(task.userPhone, process.env.TWILIO_PHONE_NUMBER, smsContent);
-        logger.info(`SMS sent to ${task.userPhone} for task "${task.taskTitle}"`);
-
-        await userModel.saveUsers(updatedUsers);
+        await userModel.markReminderSent(task.taskId);
+        await activityModel.record({ email: task.userEmail, eventType: 'notification.sent', message: `Reminder sent for “${task.taskTitle}”.`, metadata: { taskId: task.taskId, channels: ['email', ...(!smsResult.skipped ? ['sms'] : [])] } });
         logger.info(`Task "${task.taskTitle}" marked as email sent for user ${task.userEmail}`);
       } catch (emailError) {
         logger.error(`Failed to send email to ${task.userEmail} for task "${task.taskTitle}": ${emailError.message}`);
+        await activityModel.record({ email: task.userEmail, level: 'error', eventType: 'notification.failed', message: `Reminder could not be sent for “${task.taskTitle}”.`, metadata: { taskId: task.taskId } });
       }
     }
 

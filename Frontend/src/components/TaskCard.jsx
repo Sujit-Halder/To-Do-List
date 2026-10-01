@@ -75,43 +75,41 @@ const TaskCard = ({ taskData, tasklistName, onEdit, onDelete, onToggleComplete }
   };
 
   return (
-    <div
-      className={`bg-white p-6 rounded-xl shadow-lg flex justify-between items-center relative transition-transform duration-300 ${isHovered ? 'scale-105 shadow-2xl' : 'scale-100'
-        }`}
+    <article
+      className="interactive-card group relative flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition sm:flex-row sm:items-start"
       onMouseEnter={() => handleHover(true)}
       onMouseLeave={() => handleHover(false)}
       onClick={() => isTouchDevice && setIsHovered(!isHovered)} // Toggle hover state on touch devices
     >
-      <div className="flex flex-col justify-between space-y-2">
+      <div className="min-w-0 flex-1 space-y-2">
         <h3
-          className={`font-bold text-lg ${taskData.status === 'Completed' ? 'text-green-600 line-through' : 'text-gray-800'
+          className={`pr-20 text-base font-semibold leading-snug ${taskData.status === 'Completed' ? 'text-emerald-600 line-through' : 'text-slate-800'
             }`}
         >
           {taskData.title}
         </h3>
-        {taskData.date && <p className="text-sm text-gray-600">📅 {formatDate(taskData.date)}</p>}
-        {taskData.time && <p className="text-sm text-gray-600">⏳ {formatTime(taskData.time)}</p>}
-        <p className="text-sm text-gray-600">
-          🔥 Priority: <span className="font-medium">{taskData.priority || '--'}</span> | ✅ Status:{' '}
-          <span className="font-medium">{taskData.status}</span> | 📧 Email Notification:{' '}
-          <span className="text-sm text-gray-600">{taskData.emailNotification ? ' 🔔' : ' 🔕'}</span>
-        </p>
-        <p className="text-xs text-gray-400">📅 Created on: {formatDateTime(taskData.creationTime)}</p>
-        <p className="text-xs text-gray-400">📅 Last Modified on: {formatDateTime(taskData.modificationTime)}</p>
+        <div className="flex flex-wrap gap-2 text-xs font-medium text-slate-600">
+          {taskData.date && <span className="rounded-lg bg-slate-100 px-2.5 py-1">📅 {formatDate(taskData.date)}</span>}
+          {taskData.time && <span className="rounded-lg bg-slate-100 px-2.5 py-1">⏳ {formatTime(taskData.time)}</span>}
+          <span className="rounded-lg bg-orange-50 px-2.5 py-1 text-orange-700">{taskData.priority || '--'} priority</span>
+          <span className="rounded-lg bg-blue-50 px-2.5 py-1 text-blue-700">{taskData.status}</span>
+          {taskData.emailNotification && <span className="rounded-lg bg-red-50 px-2.5 py-1 text-red-600">🔔 Reminder on</span>}
+        </div>
+        <p className="text-xs text-slate-400">Created {formatDateTime(taskData.creationTime)} · Updated {formatDateTime(taskData.modificationTime)}</p>
         {taskData.completionTime && (
-          <p className="text-xs text-gray-400">📅 Task Completed on: {formatDateTime(taskData.completionTime)}</p>
+          <p className="text-xs text-emerald-600">Completed {formatDateTime(taskData.completionTime)}</p>
         )}
         <button
           onClick={onToggleComplete}
-          className={`mt-2 text-sm flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-transform duration-300 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed shadow-inner ${taskData.status === 'Completed'
-              ? 'bg-green-500 text-white hover:bg-green-600'
-              : 'bg-gray-200 text-gray-700 hover:bg-green-100 hover:text-green-600'
+          className={`mt-1 inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold transition disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400 ${taskData.status === 'Completed'
+              ? 'bg-emerald-500 text-white hover:bg-emerald-600'
+              : 'bg-slate-100 text-slate-600 hover:bg-emerald-50 hover:text-emerald-700'
             }`}
           title="It will mark the task as completed or uncompleted"
           aria-label="Toggle Task Completion"
           disabled={taskData.status === 'Overdue' || CompleteEditBlock()}
         >
-          <FaCheck className="text-white" />
+          <FaCheck />
           {taskData.status === 'Completed' ? 'Mark as Uncompleted' : 'Mark as Completed'}
         </button>
       </div>
@@ -120,14 +118,14 @@ const TaskCard = ({ taskData, tasklistName, onEdit, onDelete, onToggleComplete }
         <img
           src={taskData.imageUrl}
           alt={taskData.title}
-          className="w-24 h-24 rounded-xl object-cover border border-gray-200 shadow-sm ml-4"
+          className="h-24 w-full rounded-xl border border-slate-200 object-cover sm:w-24 sm:shrink-0"
         />
       )}
 
-      {isHovered && taskData.status !== 'Completed' && (
-        <div className="absolute top-3 right-8 flex space-x-2 opacity-100 transition-opacity duration-300">
+      {taskData.status !== 'Completed' && (
+        <div className="absolute right-3 top-3 flex gap-1 opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100">
           <button
-            className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 shadow-md transition-transform duration-300 hover:scale-110"
+            className="rounded-lg bg-blue-50 p-2 text-blue-600 hover:bg-blue-100"
             onClick={() => onEdit(taskData)}
             aria-label="Edit Task"
             title="Edit Task"
@@ -136,7 +134,7 @@ const TaskCard = ({ taskData, tasklistName, onEdit, onDelete, onToggleComplete }
           </button>
           {taskData.status !== 'Overdue' && (
             <button
-              className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 shadow-md transition-transform duration-300 hover:scale-110"
+              className="rounded-lg bg-red-50 p-2 text-red-500 hover:bg-red-100"
               onClick={() => onDelete(taskData.id)}
               aria-label="Delete Task"
               title="Delete Task"
@@ -147,11 +145,11 @@ const TaskCard = ({ taskData, tasklistName, onEdit, onDelete, onToggleComplete }
         </div>
       )}
       {tasklistName && (
-        <div className="absolute bottom-3 right-8">
-          <span className="text-xl font-medium text-red-500">#{tasklistName}</span>
+        <div className="absolute bottom-3 right-3">
+          <span className="text-xs font-semibold text-red-400">#{tasklistName}</span>
         </div>
       )}
-    </div>
+    </article>
   );
 };
 

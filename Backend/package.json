@@ -12,16 +12,12 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^6.0.0",
-    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "crypto": "^1.0.1",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
     "node-schedule": "^2.1.1",
     "nodemailer": "^7.0.3",
-    "path": "^0.12.7",
     "twilio": "^5.7.1",
     "uuid": "^11.1.0",
     "winston": "^3.17.0"

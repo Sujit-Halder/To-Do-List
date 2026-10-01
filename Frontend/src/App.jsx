@@ -6,14 +6,16 @@ import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import ToastRegion from './components/ToastRegion';
+import { notify } from './utils/notifications';
 
 
 // Set up interceptor once at the top level
 axios.interceptors.response.use(
   response => response,
   error => {
-    if (error.response?.status === 403) {
-      alert('Access denied: You do not have permission.');
+    if (error.response?.status === 401 || error.response?.status === 403) {
+      notify(error.response?.data?.message || 'Your session has expired. Please sign in again.', 'warning');
       // optional: redirect to login or logout logic here
       // Note: can't use useNavigate() directly here since not in React component
       // You could use window.location:
@@ -27,6 +29,7 @@ axios.interceptors.response.use(
 const App = () => {
   return (
     <BrowserRouter>
+      <ToastRegion />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<SignIn />} />

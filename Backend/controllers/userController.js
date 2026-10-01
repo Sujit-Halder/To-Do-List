@@ -1,335 +1,112 @@
 const { v4: uuidv4 } = require('uuid');
 const userModel = require('../models/userModel');
-const { base64 } = require('../utils/generateTokens');
-const logger = require('../utils/logger'); // Import logger
+const logger = require('../utils/logger');
+const activityModel = require('../models/activityModel');
+
+const respondError = (res, error, context, email, eventType = 'system.error') => {
+  logger.error(`${context}: ${error.message}`);
+  activityModel.record({ email, level: 'error', eventType, message: context }).catch(() => {});
+  if (error.code === 'ERR_SQLITE_CONSTRAINT_UNIQUE') {
+    return res.status(409).json({ message: 'That name is already in use. Please choose another one.' });
+  }
+  return res.status(500).json({ message: 'We could not save your changes. Please try again.' });
+};
+
+const cleanName = (value) => typeof value === 'string' ? value.trim() : '';
 
 exports.updateImage = async (req, res) => {
-    try {
-        if (!req.body.image) {
-            logger.warn('Update image failed: No image provided');
-            return res.status(400).json({ message: 'No image provided' });
-        }
-
-        const success = await userModel.updateUserByEmail(req.user.email, { image: req.body.image });
-        if (!success) {
-            logger.warn(`Update image failed: User not found - ${req.user.email}`);
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        logger.info(`User ${req.user.email} updated profile image`);
-        return res.status(200).json({ message: 'Image updated successfully' });
-    } catch (error) {
-        logger.error(`Error during image update: ${error.message}`);
-        return res.status(500).json({ message: 'Server error', error: error.message });
-    }
+  try {
+    if (!req.body.image) return res.status(400).json({ message: 'Choose an image before uploading.' });
+    const success = await userModel.updateImage(req.user.email, req.body.image);
+    if (success) await activityModel.record({ email: req.user.email, eventType: 'profile.image_updated', message: 'Profile image updated.' });
+    return success ? res.json({ message: 'Profile image updated.' }) : res.status(404).json({ message: 'Account not found.' });
+  } catch (error) { return respondError(res, error, 'Profile image update failed', req.user.email, 'profile.image_error'); }
 };
 
 exports.deleteImage = async (req, res) => {
-    try {
-        const success = await userModel.updateUserByEmail(req.user.email, { image: '' });
-        if (!success) {
-            logger.warn(`Delete image failed: User not found - ${req.user.email}`);
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        logger.info(`User ${req.user.email} deleted profile image`);
-        return res.status(200).json({ message: 'Image deleted successfully' });
-    } catch (error) {
-        logger.error(`Error during image delete: ${error.message}`);
-        return res.status(500).json({ message: 'Server error', error: error.message });
-    }
+  try {
+    const success = await userModel.updateImage(req.user.email, '');
+    if (success) await activityModel.record({ email: req.user.email, eventType: 'profile.image_removed', message: 'Profile image removed.' });
+    return success ? res.json({ message: 'Profile image removed.' }) : res.status(404).json({ message: 'Account not found.' });
+  } catch (error) { return respondError(res, error, 'Profile image deletion failed', req.user.email, 'profile.image_error'); }
 };
 
 exports.addTaskList = async (req, res) => {
-    try {
-        const { name } = req.body;
-        if (!name) {
-            logger.warn('Add task list failed: Task list name is required');
-            return res.status(400).json({ message: 'Task list name is required' });
-        }
-
-        const user = await userModel.findByEmail(req.user.email);
-        if (!user) {
-            logger.warn(`Add task list failed: User not found - ${req.user.email}`);
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        const otherTaskIndex = user.tasklists.findIndex(tasklist => tasklist.name === "Other Task");
-
-        let updatedTaskLists;
-        if (otherTaskIndex !== -1) {
-            updatedTaskLists = [
-                ...user.tasklists.slice(0, otherTaskIndex),
-                { name, tasks: [] },
-                ...user.tasklists.slice(otherTaskIndex)
-            ];
-        } else {
-            updatedTaskLists = [...user.tasklists, { name, tasks: [] }];
-        }
-
-        const success = await userModel.updateUserByEmail(req.user.email, { tasklists: updatedTaskLists });
-        if (!success) {
-            logger.error(`Add task list failed: Could not update user - ${req.user.email}`);
-            return res.status(500).json({ message: 'Failed to add task list' });
-        }
-
-        logger.info(`User ${req.user.email} added task list: ${name}`);
-        return res.status(200).json({ tasklists: updatedTaskLists });
-    } catch (error) {
-        logger.error(`Error during adding task list: ${error.message}`);
-        return res.status(500).json({ message: 'Server error', error: error.message });
-    }
+  const name = cleanName(req.body.name);
+  if (!name) return res.status(400).json({ message: 'Enter a name for the task list.' });
+  if (name.length > 60) return res.status(400).json({ message: 'Task list names must be 60 characters or fewer.' });
+  try {
+    const tasklists = await userModel.addTaskList(req.user.email, name);
+    if (tasklists) await activityModel.record({ email: req.user.email, eventType: 'task_list.created', message: `Task list “${name}” created.`, metadata: { taskList: name } });
+    return tasklists ? res.json({ message: `“${name}” was created.`, tasklists }) : res.status(404).json({ message: 'Account not found.' });
+  } catch (error) { return respondError(res, error, 'Task list creation failed', req.user.email, 'task_list.error'); }
 };
 
 exports.editTaskList = async (req, res) => {
-    try {
-        const { oldName, newName } = req.body;
-        if (!oldName || !newName) {
-            logger.warn('Edit task list failed: Both old and new task list names are required');
-            return res.status(400).json({ message: 'Both old and new task list names are required' });
-        }
-
-        const user = await userModel.findByEmail(req.user.email);
-        if (!user) {
-            logger.warn(`Edit task list failed: User not found - ${req.user.email}`);
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        const updatedTaskLists = user.tasklists.map(tasklist =>
-            tasklist.name === oldName ? { ...tasklist, name: newName } : tasklist
-        );
-
-        const success = await userModel.updateUserByEmail(req.user.email, { tasklists: updatedTaskLists });
-        if (!success) {
-            logger.error(`Edit task list failed: Could not update user - ${req.user.email}`);
-            return res.status(500).json({ message: 'Failed to edit task list' });
-        }
-
-        logger.info(`User ${req.user.email} edited task list: ${oldName} to ${newName}`);
-        return res.status(200).json({ tasklists: updatedTaskLists });
-    } catch (error) {
-        logger.error(`Error during task list editing: ${error.message}`);
-        return res.status(500).json({ message: 'Server error', error: error.message });
-    }
+  const oldName = cleanName(req.body.oldName);
+  const newName = cleanName(req.body.newName);
+  if (!oldName || !newName) return res.status(400).json({ message: 'Provide both the current and new task list names.' });
+  try {
+    const tasklists = await userModel.renameTaskList(req.user.email, oldName, newName);
+    if (tasklists) await activityModel.record({ email: req.user.email, eventType: 'task_list.renamed', message: `Task list “${oldName}” renamed to “${newName}”.`, metadata: { oldName, newName } });
+    return tasklists ? res.json({ message: `Task list renamed to “${newName}”.`, tasklists }) : res.status(404).json({ message: 'Task list not found.' });
+  } catch (error) { return respondError(res, error, 'Task list rename failed', req.user.email, 'task_list.error'); }
 };
 
 exports.deleteTaskList = async (req, res) => {
-    try {
-        const { name } = req.body;
-        if (!name) {
-            logger.warn('Delete task list failed: Task list name is required');
-            return res.status(400).json({ message: 'Task list name is required' });
-        }
-
-        const user = await userModel.findByEmail(req.user.email);
-        if (!user) {
-            logger.warn(`Delete task list failed: User not found - ${req.user.email}`);
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        const updatedTaskLists = user.tasklists.filter(tasklist => tasklist.name !== name);
-
-        const success = await userModel.updateUserByEmail(req.user.email, { tasklists: updatedTaskLists });
-        if (!success) {
-            logger.error(`Delete task list failed: Could not update user - ${req.user.email}`);
-            return res.status(500).json({ message: 'Failed to delete task list' });
-        }
-
-        logger.info(`User ${req.user.email} deleted task list: ${name}`);
-        return res.status(200).json({ tasklists: updatedTaskLists });
-    } catch (error) {
-        logger.error(`Error during task list deletion: ${error.message}`);
-        return res.status(500).json({ message: 'Server error', error: error.message });
-    }
+  const name = cleanName(req.body.name);
+  if (!name) return res.status(400).json({ message: 'Choose a task list to delete.' });
+  try {
+    const tasklists = await userModel.deleteTaskList(req.user.email, name);
+    if (tasklists) await activityModel.record({ email: req.user.email, level: 'warning', eventType: 'task_list.deleted', message: `Task list “${name}” and its tasks deleted.`, metadata: { taskList: name } });
+    return tasklists ? res.json({ message: `“${name}” and its tasks were deleted.`, tasklists }) : res.status(404).json({ message: 'Task list not found.' });
+  } catch (error) { return respondError(res, error, 'Task list deletion failed', req.user.email, 'task_list.error'); }
 };
 
 exports.createTask = async (req, res) => {
-    try {
-        const { tasklistName, task } = req.body;
-        if (!tasklistName || !task) {
-            logger.warn('Create task failed: Task list name and task data are required');
-            return res.status(400).json({ message: 'Task list name and task data are required' });
-        }
-
-        const user = await userModel.findByEmail(req.user.email);
-        if (!user) {
-            logger.warn(`Create task failed: User not found - ${req.user.email}`);
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        const tasklistIndex = user.tasklists.findIndex(tl => tl.name === tasklistName);
-        const otherTaskIndex = user.tasklists.findIndex(tl => tl.name === "Other Task");
-
-        const newTask = {
-            id: uuidv4(),
-            ...task,
-            emailSent: task.emailNotification === true ? false : undefined
-        };
-
-        if (tasklistIndex !== -1) {
-            user.tasklists[tasklistIndex].tasks.push(newTask);
-        } else {
-            const newTasklist = { name: tasklistName, tasks: [newTask] };
-
-            if (otherTaskIndex !== -1) {
-                user.tasklists = [
-                    ...user.tasklists.slice(0, otherTaskIndex),
-                    newTasklist,
-                    ...user.tasklists.slice(otherTaskIndex)
-                ];
-            } else {
-                user.tasklists.push(newTasklist);
-            }
-        }
-
-        const success = await userModel.updateUserByEmail(req.user.email, { tasklists: user.tasklists });
-        if (!success) {
-            logger.error(`Create task failed: Could not update user - ${req.user.email}`);
-            return res.status(500).json({ message: 'Failed to create task' });
-        }
-
-        logger.info(`User ${req.user.email} created a task in task list: ${tasklistName}`);
-        return res.status(200).json({ tasklists: user.tasklists });
-    } catch (error) {
-        logger.error(`Error during task creation: ${error.message}`);
-        return res.status(500).json({ message: 'Server error', error: error.message });
-    }
+  const tasklistName = cleanName(req.body.tasklistName);
+  const task = req.body.task;
+  if (!tasklistName || !task?.title || !task?.date || !task?.time) return res.status(400).json({ message: 'Title, task list, reminder date, and reminder time are required.' });
+  try {
+    const tasklists = await userModel.createTask(req.user.email, tasklistName, { ...task, id: uuidv4() });
+    if (tasklists) await activityModel.record({ email: req.user.email, eventType: 'task.created', message: `Task “${task.title.trim()}” created in “${tasklistName}”.`, metadata: { taskList: tasklistName, title: task.title.trim() } });
+    return tasklists ? res.json({ message: `“${task.title.trim()}” was added.`, tasklists }) : res.status(404).json({ message: 'Account not found.' });
+  } catch (error) { return respondError(res, error, 'Task creation failed', req.user.email, 'task.error'); }
 };
 
 exports.editTask = async (req, res) => {
-    try {
-        const { updatedTask } = req.body;
-        if (!updatedTask || !updatedTask.id) {
-            logger.warn('Edit task failed: Task data with a valid ID is required');
-            return res.status(400).json({ message: 'Task data with a valid ID is required' });
-        }
-
-        const user = await userModel.findByEmail(req.user.email);
-        if (!user) {
-            logger.warn(`Edit task failed: User not found - ${req.user.email}`);
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        let taskFound = false;
-
-        for (const tasklist of user.tasklists) {
-            const task = tasklist.tasks.find(t => t.id === updatedTask.id);
-            if (task) {
-                Object.assign(task, updatedTask, { modificationTime: new Date().toISOString() });
-                taskFound = true;
-                break;
-            }
-        }
-
-        if (!taskFound) {
-            logger.warn(`Edit task failed: Task not found - ${updatedTask.id}`);
-            return res.status(404).json({ message: 'Task not found' });
-        }
-
-        const success = await userModel.updateUserByEmail(req.user.email, { tasklists: user.tasklists });
-        if (!success) {
-            logger.error(`Edit task failed: Could not update user - ${req.user.email}`);
-            return res.status(500).json({ message: 'Failed to edit task' });
-        }
-
-        logger.info(`User ${req.user.email} edited task: ${updatedTask.id}`);
-        return res.status(200).json({ tasklists: user.tasklists });
-    } catch (error) {
-        logger.error(`Error during task editing: ${error.message}`);
-        return res.status(500).json({ message: 'Server error', error: error.message });
-    }
+  const task = req.body.updatedTask;
+  if (!task?.id || !task?.title || !task?.date || !task?.time) return res.status(400).json({ message: 'Complete all required task fields before saving.' });
+  try {
+    const tasklists = await userModel.updateTask(req.user.email, task);
+    if (tasklists) await activityModel.record({ email: req.user.email, eventType: 'task.updated', message: `Task “${task.title.trim()}” updated.`, metadata: { taskId: task.id, title: task.title.trim() } });
+    return tasklists ? res.json({ message: 'Task updated.', tasklists }) : res.status(404).json({ message: 'Task not found.' });
+  } catch (error) { return respondError(res, error, 'Task update failed', req.user.email, 'task.error'); }
 };
 
 exports.deleteTask = async (req, res) => {
-    try {
-        const { taskId } = req.body;
-        if (!taskId) {
-            logger.warn('Delete task failed: Task ID is required');
-            return res.status(400).json({ message: 'Task ID is required' });
-        }
-
-        const user = await userModel.findByEmail(req.user.email);
-        if (!user) {
-            logger.warn(`Delete task failed: User not found - ${req.user.email}`);
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        let taskFound = false;
-
-        for (const tasklist of user.tasklists) {
-            const initialTaskCount = tasklist.tasks.length;
-            tasklist.tasks = tasklist.tasks.filter(t => t.id !== taskId);
-            if (tasklist.tasks.length < initialTaskCount) {
-                taskFound = true;
-                break;
-            }
-        }
-
-        if (!taskFound) {
-            logger.warn(`Delete task failed: Task not found - ${taskId}`);
-            return res.status(404).json({ message: 'Task not found' });
-        }
-
-        const success = await userModel.updateUserByEmail(req.user.email, { tasklists: user.tasklists });
-        if (!success) {
-            logger.error(`Delete task failed: Could not update user - ${req.user.email}`);
-            return res.status(500).json({ message: 'Failed to delete task' });
-        }
-
-        logger.info(`User ${req.user.email} deleted task: ${taskId}`);
-        return res.status(200).json({ tasklists: user.tasklists });
-    } catch (error) {
-        logger.error(`Error during task deletion: ${error.message}`);
-        return res.status(500).json({ message: 'Server error', error: error.message });
-    }
+  if (!req.body.taskId) return res.status(400).json({ message: 'Choose a task to delete.' });
+  try {
+    const tasklists = await userModel.deleteTask(req.user.email, req.body.taskId);
+    if (tasklists) await activityModel.record({ email: req.user.email, level: 'warning', eventType: 'task.deleted', message: 'Task deleted.', metadata: { taskId: req.body.taskId } });
+    return tasklists ? res.json({ message: 'Task deleted.', tasklists }) : res.status(404).json({ message: 'Task not found.' });
+  } catch (error) { return respondError(res, error, 'Task deletion failed', req.user.email, 'task.error'); }
 };
 
 exports.markTaskAsComplete = async (req, res) => {
-    try {
-        const { taskId } = req.body;
-        if (!taskId) {
-            logger.warn('Mark task as complete failed: Task ID is required');
-            return res.status(400).json({ message: 'Task ID is required' });
-        }
+  if (!req.body.taskId) return res.status(400).json({ message: 'Choose a task to update.' });
+  try {
+    const tasklists = await userModel.toggleTaskComplete(req.user.email, req.body.taskId);
+    if (tasklists) await activityModel.record({ email: req.user.email, eventType: 'task.status_updated', message: 'Task completion status updated.', metadata: { taskId: req.body.taskId } });
+    return tasklists ? res.json({ message: 'Task status updated.', tasklists }) : res.status(404).json({ message: 'Task not found.' });
+  } catch (error) { return respondError(res, error, 'Task status update failed', req.user.email, 'task.error'); }
+};
 
-        const user = await userModel.findByEmail(req.user.email);
-        if (!user) {
-            logger.warn(`Mark task as complete failed: User not found - ${req.user.email}`);
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        let taskFound = false;
-
-        for (const tasklist of user.tasklists) {
-            const task = tasklist.tasks.find(t => t.id === taskId);
-            if (task) {
-                if (task.status !== 'Completed') {
-                    task.status = 'Completed';
-                    task.completionTime = new Date().toISOString();
-                } else {
-                    task.status = 'Not Started';
-                    task.completionTime = '';
-                }
-                taskFound = true;
-                break;
-            }
-        }
-
-        if (!taskFound) {
-            logger.warn(`Mark task as complete failed: Task not found - ${taskId}`);
-            return res.status(404).json({ message: 'Task not found' });
-        }
-
-        const success = await userModel.updateUserByEmail(req.user.email, { tasklists: user.tasklists });
-        if (!success) {
-            logger.error(`Mark task as complete failed: Could not update user - ${req.user.email}`);
-            return res.status(500).json({ message: 'Failed to mark task as complete' });
-        }
-
-        logger.info(`User ${req.user.email} marked task as complete: ${taskId}`);
-        return res.status(200).json({ tasklists: user.tasklists });
-    } catch (error) {
-        logger.error(`Error during marking task as complete: ${error.message}`);
-        return res.status(500).json({ message: 'Server error', error: error.message });
-    }
+exports.getActivity = async (req, res) => {
+  try {
+    const activity = await activityModel.listForUser(req.user.email, req.query);
+    return res.json(activity);
+  } catch (error) {
+    return respondError(res, error, 'Activity log could not be loaded', req.user.email, 'activity.read_error');
+  }
 };
