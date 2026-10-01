@@ -1,3 +1,23 @@
-**/node_modules/
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
+
+# Database files
 Backend/data/*.sqlite*
+
+# Logs
 Backend/logs/*.log
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
